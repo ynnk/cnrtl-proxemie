@@ -107,7 +107,7 @@ logger = get_basic_logger(logging.DEBUG)
 try:
     BASEDIR = os.environ["PTDPATH"]
 except KeyError:
-    raise RuntimeError("You should have the PTDPATH environment variable setted to prox team data (hubic) root dir.")
+    BASEDIR = "./"
 
 # descrption des graphes
 graphs = {
