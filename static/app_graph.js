@@ -127,7 +127,7 @@ define([
                 edges_color: 0x79878A,
                 background_color: 0xFEFFFE,
                 wnode_scale: function(vtx){
-                    return 20; //TODO
+                    return 25; //TODO
                 },
             });
             // we want to change the color of edges of selected nodes

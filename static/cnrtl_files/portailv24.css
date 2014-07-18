@@ -1,0 +1,489 @@
+.tlf_ccode {}
+.tlf_cpublication {}
+.tlf_csyntagme {}
+.tlf_csynonime {}
+.tlf_ccrochet {}
+.tlf_cdefinition {}
+.tlf_cemploi {}
+.tlf_ctitre {}
+.tlf_cdate {}
+.tlf_cdomaine {}
+.tlf_cexemple {}
+.tlf_cauteur {}
+
+/* onglets box */
+
+#vtoolbar ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#vtoolbar li {
+	float:left;
+	border: 1px solid #bbb;
+	border-bottom-width: 0;
+	margin-right: 4px;
+}
+
+#vtoolbar a {
+	text-decoration: none;
+	display: block;
+	background: white;
+	padding: 0.2em 0.6em 0.0em 0.6em;
+	color: #555;
+	height:1.4em;
+	text-align: center;
+}
+
+#vtoolbar #vitemselected {
+	border-color: #c3d2f0;
+}
+
+#vtoolbar #vitemselected a {
+	position: relative;
+	top: 1px;
+	background: white;
+	color: black;
+	padding-left:20px;
+	background: white url("/images/css/PointR.jpg") no-repeat 6px center;
+}
+
+#vtoolbar #vitemselected span {
+	font-weight: bold;
+	color: #d2222d;
+}
+
+.tlf_cvedette {
+	padding: 0px 0px 0px 14px;
+	background: url("/images/css/PointR.jpg") no-repeat center left;
+	margin-bottom:5px;
+	display:none;
+}
+
+.tlf_cmot {
+	font-size: 1.1em;
+	font-weight: bold;
+	color: #d2222d;
+}
+
+.tlf_cplan {
+	font-weight: bold;
+}
+
+.tlf_smallcaps {
+	font-variant:small-caps;
+	font-size:0.9em;
+}
+
+/* structure TLF */
+
+.tlf_parah {
+	margin-bottom:4px;
+}
+
+.tlf_paraputir {
+	margin-bottom:4px;
+}
+
+.tlf_parsynt {
+	margin-top:4px;
+	margin-bottom:4px;
+}
+
+.tlf_parothers {
+	margin-top:8px;
+	margin-bottom:4px;
+}
+
+.tlf_tabulation {
+	margin: 4px 0px 4px 20px;
+	padding: 0px 0px 0px 12px;
+	background: url("/images/portail/bclf_bullet.png") no-repeat 0px 2px;
+}
+
+/* BHVF */
+
+.bhvf {
+}
+
+.bhvf_separator {
+	margin-bottom:16px;
+}
+
+.bhvf_cont {
+	font-weight: bold;
+	color: #006400;
+}
+
+.bhvf_cit {
+	margin-left:3%;
+}
+
+.bhvf_date {
+	color: blue;
+}
+
+.bhvf_acc {
+	margin-left:3%;
+	color: #FA12FE;
+}
+
+.bhvf_vare {
+	margin-left:3%;
+	color: #80800C;
+	display: inline-block;
+}
+
+/* couleurs TLF */
+
+.tlf_color0 {
+	background-color:#FF9090;
+	width:30px;
+}
+
+.tlf_color1 {
+	background-color:#C0FFC0;
+	width:30px;
+}
+
+.tlf_color2 {
+	background-color:#D0D0FF;
+	width:30px;
+}
+
+.tlf_color3 {
+	background-color:#FFFF00;
+	width:30px;
+}
+
+.tlf_color4 {
+	background-color:#FFB060;
+	width:30px;
+}
+
+.tlf_color5 {
+	background-color:#00FFFF;
+	width:30px;
+}
+
+.letterHeader {
+	font-size: 1.0em;
+	line-height: 26px;
+	text-align: center;
+}
+
+.letterHeader td {
+	width:22px;
+}
+
+.letterSelected {
+	font-weight:bold;
+}
+
+.letterSelected, .letterHeader a:hover {
+	border: 1px solid #9ECDE7;
+	background: #FFFFFF;
+}
+
+.letterHeader a, .letterHeader a:visited {
+	text-decoration: none;
+	color: #003399;
+	padding:4px;
+}
+
+.plugin_menu {
+	border: solid black 1px;
+	background-color:white;
+	width:120px;
+}
+
+.plugin_menu tr {
+	cursor: pointer;
+	text-align:right;
+}
+
+.plugin_menu tr:hover {
+	background: url("/images/portail/item.jpg") repeat-x;
+	color:#CCCCCC;
+}
+
+.plugin_menu h1 {
+	font-weight: bold;
+}
+
+.plugin_menu h2 {
+	font-weight: normal;
+}
+
+.plugin_menu h1,h2 {
+	font-size: 0.85em;
+	padding: 2px 2px 0px 0px;
+}
+
+.plugin_on {
+	background: url("/images/portail/item.jpg") repeat-x;
+	color:white;
+}
+
+.plugin_image {
+	width:36px;
+	height:44px;
+	padding: 3px 2px 3px 2px;
+}
+
+#menubox {
+	border-width:1px; 
+	border-color:#C3D2F0; 
+	border-style:solid; 
+	background: #D1D7E2;
+	height:500px;
+}
+
+#main_content {
+	text-align: justify;
+	padding: 8px 0px 0px 0px;
+}
+
+#lexicontent {
+    font-family: "Verdana";
+}
+
+#content {
+	font-size: 14px;
+}
+
+#contentbox {
+	clear: both;
+	color: #000;
+	background: #fff;
+	border: 1px solid #c3d2f0;
+	padding: 5px 8px 5px 8px;
+}
+
+#contentbox h1 {
+	font-weight: bold;
+	font-size: 1.0em;
+	text-align: center;
+	padding: 4px 14px 4px 14px;
+}
+
+#contentbox h2 {
+	font-weight: bold;
+	font-size: 1.0em;
+	color: #d2222d;
+	padding: 4px 14px 4px 14px;
+	background: url("/images/css/PointR.jpg") no-repeat center left;
+}
+
+#contentbox a {
+	color: #3b85ca;
+}
+
+#reqform input {
+	margin-left: 8px;
+}
+
+#optionBox {
+	z-index:1;
+	background-color:#d7e5ff;
+	border-width:1px;
+	border-color:blue;
+	border-style:solid; 
+	position:absolute;
+	display:none;
+	width:250px;
+	text-align:center;
+	padding:4px;
+}
+
+/* phonetique */
+
+.findphonetic {
+	border: 1px solid #9ECDE7;
+	background: #FFFFFF;
+}
+
+/* statistiques */
+
+.stat_left {
+	text-align:left;
+	padding-left: 30px;
+	width: 30%;
+}
+
+.stat_right {
+	padding-right: 30px;
+	width: 70%;
+}
+
+/* synonymes */
+
+.syno_format {
+	width:30%;
+	padding-right: 20px;
+	text-align:right;
+}
+
+/* antonymes */
+
+.anto_format {
+	width:30%;
+	padding-right: 20px;
+	text-align:right;
+}
+
+/* morphologie */
+
+.morf_table {
+	font-size: 0.9em;
+	border-spacing: 0px 1px;
+}
+
+.morf_table tr:hover {
+	background-color:#C3D2F0;
+}
+
+.morf_header {
+	font-weight:bold;
+	background-color:#C3D2F0;
+	text-align:left;
+}
+
+.morf_header td {
+	padding: 3px 8px 3px 8px;
+}
+
+.morf_normal td,.morf_hilight td {
+	padding-left:4px;
+	text-align:left;
+}
+
+.morf_sound {
+	background: url("/images/portail/sound.gif") no-repeat center left;
+	padding-left:18px;
+}
+
+.morf_sound:hover {
+	cursor:pointer;
+}
+
+.morf_hilight {
+	color:#D2222D;
+	font-weight:bold;
+}
+
+/* concordance */
+
+.conc_left {
+	font-size: 0.8em;
+    font-family: "Monaco";
+	text-align: right;
+	padding-right:4px;
+}
+
+.conc_right {
+	font-size: 0.8em;
+    font-family: "Monaco";
+	text-align: left;
+	padding-left:4px;
+}
+
+/* lexicographie */
+
+.bottombox {
+   	margin: 0px 0px 4px 0px;
+}
+
+.topbottombox {
+   	margin: 4px 0px 4px 0px;
+}
+
+/* bdlp */
+.bdlp_wait {
+	margin: 5px;
+	padding: 15px;
+	border: 1px solid #ECECEC;
+}
+
+.bdlp_pays {
+	font-size: 0.9em;
+}
+
+.bdlp_table {
+	font-size: 1.0em;
+	border-spacing: 0px 1px;
+}
+
+.bdlp_table tr:hover {
+	background-color:#C3D2F0;
+}
+
+.bdlp_header {
+	font-weight:bold;
+	background-color:#C3D2F0;
+}
+
+.bdlp_header td {
+	padding: 3px 0px 3px 16px;
+}
+
+.bdlp_data {
+	font-size:1.0em;
+}
+
+/* home */
+
+.hometab td {
+	width:25%;
+	text-align:left;
+}
+
+.hometab {
+	font-size: 1.0em;
+	margin: auto;
+}
+
+.barre_href {
+	color:#a90a08;
+	font-weight:bold;
+}
+
+.light_frame {
+	border-width:1px; 
+	border-color:#C3D2F0; 
+	border-style:solid; 
+	padding:10px 10px 10px 10px;
+	width: 95%;
+} 
+
+.light_frame2 {
+	border-width:1px; 
+	border-color:#C3D2F0; 
+	border-style:solid; 
+	padding:6px 6px 6px 6px;
+	width: 100%;
+} 
+
+.small_font, .small_options, .small_menu_font {
+	font-size:0.8em;
+}
+
+.small_options a {
+	color:red;
+}
+
+.small_options {
+	text-align:left;
+	padding-left:8px;
+}
+
+.small_menu_font {
+	text-align: right;
+}
+
+.font_change {
+	cursor: pointer;
+	float:right;
+	padding-top:8px;
+}

@@ -112,20 +112,20 @@ except KeyError:
 # descrption des graphes
 graphs = {
     "verb": {
-        "path": BASEDIR+"Graphs/dicosyn/dicosyn/V.dicosyn.pickle",
+        "path": os.path.join(BASEDIR, "Graphs/dicosyn/dicosyn/V.dicosyn.pickle"),
     },
     "noun": {
-        "path": BASEDIR+"Graphs/dicosyn/dicosyn/N.dicosyn.pickle",
+        "path": os.path.join(BASEDIR, "Graphs/dicosyn/dicosyn/N.dicosyn.pickle"),
     },
     "adj": {
-        "path": BASEDIR+"Graphs/dicosyn/dicosyn/A.dicosyn.pickle",
+        "path": os.path.join(BASEDIR, "Graphs/dicosyn/dicosyn/A.dicosyn.pickle"),
     },
 }
 
 # index page
 @app.route("/")
 def index():
-    return "IndexPage, TODO"
+    return "<a href='www.kodexlab.com'>www.kodexlab.com</a>"
 
 ## build and register the CELLO APIs
 for gname, config in graphs.iteritems():
@@ -134,7 +134,12 @@ for gname, config in graphs.iteritems():
     app.register_blueprint(api, url_prefix="/%s/api" % gname)
 
 ## build other entry point of the app
-@app.route('/<string:gname>/')
+@app.route("/cnrtl/")
+@app.route("/cnrtl/<string:gname>/<string:query>")
+def app_cnrtl(gname='verb', query='causer'):
+    return render_template('cnrtl.html', query=query, url="http://localhost:5000/%s/q/%s" % ( gname, query  ))
+
+@app.route("/<string:gname>/<string:query>")
 @app.route("/<string:gname>/q/<string:query>")
 def app_graph(gname, query=None):
     root_url = "%s%s/" % (url_for("index"), gname)
@@ -142,6 +147,7 @@ def app_graph(gname, query=None):
     if gname not in graphs:
         abort(404)
     return render_template('index_graph.html', gname=gname, root_url=root_url)
+
 
 def main():
     ## run the app

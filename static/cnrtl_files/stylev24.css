@@ -1,0 +1,535 @@
+* {
+	padding: 0;
+	margin: 0;
+} 
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+ 	color: #000;
+	background: #fff;
+    text-align: center;
+}
+
+/* layout */
+
+#wrap {
+	margin: 0px auto;
+	width: 890px;
+	max-width: 890px;
+	overflow: hidden;
+	background: #efefef;
+	border-right: 1px solid #466ea1;
+	border-left: 1px solid #466ea1;
+	border-bottom: 1px solid #466ea1;
+}
+
+/* header */
+
+#header {
+	height : 91px;
+	text-align:center;
+}
+
+#header img {
+    border: 0;
+    display: block;
+}
+
+/* header navigation */
+
+#nav {
+    background-color: #466EA1;
+}
+
+#nav img {
+	height: 7px;
+	border: 0;
+	padding: 0 5px 0 5px;
+}
+
+#nav ul {
+    list-style: none;
+    padding: 2px 0 2px 0;
+	font-size: 12px;
+}
+
+#nav ul li {
+    padding: 2px 0 2px 0;
+    margin-left: -8px;
+    display: inline;
+}
+
+#nav ul li a {
+	padding: 0 2px 0 2px;
+    margin: 0 6px 0 0;
+    text-decoration:none;
+    font-weight:bold;
+    color:#fff;
+}
+
+#nav ul li.current {
+    background: #efefef;
+}
+
+#nav ul li.current a {
+    color:#333;
+}
+
+#nav ul li.sep {
+    padding-left: 19px;
+    background: #466ea0 url("/images/css/sepa.jpg") no-repeat top left;
+}
+
+#nav ul li.current_left {
+    background: #466ea0 url("/images/css/left_on.jpg") no-repeat top left;
+}
+
+#nav ul li.current_right {
+    background: #466ea0 url("/images/css/right_on.jpg") no-repeat top left;
+}
+
+#nav a:hover {
+    color : #000;
+}
+
+/* footer */
+
+#footer {
+	clear: both;
+ 	color: #fff;
+	font-size: 10px;
+	background-color: #466ea1;
+	padding: 8px;
+}
+
+#footer p {
+	margin: 5px auto;
+	width: 600px;
+}
+
+#footer img {
+	border: 0;
+}
+
+#footerright {
+	padding: 8px 0 0 0;
+	float: right;
+}
+
+#footerleft {
+	padding: 0 0 0 4px;
+	float: left;
+}
+
+/* main content */
+
+#main_content { 
+	text-align: left;
+	padding: 10px;
+	font-size: 1em;
+	height: 500px;				/* IE hack */
+}
+
+html>body #main_content {		/* IE hack */
+	height: auto;				
+	min-height: 500px;
+}
+
+.messagecenter {
+	font-weight: bold;
+	font-size: 14px;
+	color: #d2222d;
+	text-align: center;
+	padding: 2px 0px 6px 0px;
+}
+
+/* box */
+
+.box {
+	border: 1px solid #c3d2f0;
+	padding: 5px 10px 10px 10px;
+	background: #fff;
+	font-size: 14px;
+    text-align: left;
+}
+
+.box h2 {
+	font-weight: bold;
+	font-size: 14px;
+	color: #d2222d;
+	padding: 4px 14px 4px 14px;
+	background: url("/images/css/PointR.jpg") no-repeat center left;
+}
+
+.box h3 {
+	font-weight: bold;
+	padding: 4px 14px 4px 14px;
+}
+
+.box p {
+	margin: 0 5px 0px 5px;
+	padding: 5px 2px 5px 2px;
+	font-size: 0.9em;
+	text-align: justify;
+}
+
+.box a {
+	color: #3b85ca;
+}
+
+.box ol, .box ul {
+	margin: 0 0 0 30px;
+}
+
+/* box 2 */
+
+.box2 {
+     width: 90%;
+     margin-left: auto;
+     margin-right: auto;
+     background-color: rgb(187, 211, 249); 
+}
+
+.box2 pre {
+    font-size: 11px;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+/* onglets box */
+
+.tab_box {
+	text-align:center;
+	font-size: 13px;
+	border-bottom: 1px solid #c3d2f0;
+	padding-bottom:2px;
+}
+
+.tab_box ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.tab_box li {
+	display: inline;
+	list-style-type: none;
+}
+
+.tab_box a:link, .tab_box a:visited {
+	margin-right: 4px;
+	text-decoration: none;
+	color: #666;
+        background: #fff;
+        padding: 2px 10px 2px 10px;
+        border: 1px solid #ccc;
+}
+
+.tab_box a:link.active, .tab_box a:visited.active {
+	font-weight: bold;
+	border-bottom: 1px solid #efefef;
+	background: #d7e5ff;
+	color: #000;
+}
+
+.tab_box a:hover {
+	background: #d7e5ff;
+}
+
+/* legal box */
+
+#legal {
+    height: 290px;
+    padding: 5px 12px 10px 3px;
+    clear: both;
+    float: left;
+    width: 130px;
+    color: #fff;
+    background: #466ea1;
+    font-size: 12px;
+}
+
+#legal ul {
+    margin: 0;
+    list-style:none;
+    padding: 0;
+}
+
+#legal li {
+    margin: 8px 0 8px 0;
+}
+
+#legal ul a {
+    padding: 4px;
+    color:#fff;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+#legal ul.links {
+    text-transform: uppercase;
+    padding-left: 6px;
+}
+
+#legal ul.links a {
+    padding-left: 18px;
+    background: #466ea1 url("/images/css/PointR.jpg") no-repeat 4px 6px;
+}
+
+#legal ul.contact {
+    padding-left: 20px;
+}
+
+#legal ul.contact a {
+    padding-left: 26px;
+    background: #466ea1 url("/images/css/icone_lettre_g.gif") no-repeat 4px 5px;
+}
+
+#legal ul.links a:hover,#legal ul.contact a:hover {
+    background-color: #6699cc;
+}
+
+#legal img {
+    margin: 10px 5px 10px 5px;
+    border: 0;
+}
+
+#legal img.cnrs {
+    margin-top: 30px;
+}
+
+#legal a:hover {
+    color: yellow;
+    font-weight: bold;
+}
+
+/* popup licence */
+
+.licence {
+	background-color: #efefef;
+	margin: 40px 50px;
+}
+
+.licence div {
+	margin-top: 10px;
+}
+
+.licence #sous_titre, .licence #auteurs {
+	text-align: center;
+	margin: 0 20% 0 20%;
+}
+
+.licence #sous_titre {
+	font-weight: bold;
+}
+
+.licence #auteurs {
+	font-style: italic;
+}
+
+.licence p {
+	text-align: justify;
+}
+
+.licence hr {
+	margin: 10px auto;
+	text-align: center;
+	width: 80%;
+}
+
+.licence .notes {
+	font-style: italic;
+}
+
+.licence .form {
+	text-align: center;
+}
+
+/* dico box */
+
+.dico_box {
+	margin: 0 30px 0 30px;
+}
+
+.dico_box h3 {
+	font-size: 12px;
+	font-weight: bold;
+	color: #666699;
+}
+
+.dico_box img {
+	margin: 10px 10px 5px 10px;
+	padding: 0;
+}
+
+/* lien href avec red finger */
+
+.redLink {
+	font-size: 12px;
+/*	font-weight: bold;*/
+	text-align: right;
+	margin-right: 10px;
+	padding-left: 18px;
+	color: #3b85ca;
+    background: url("/images/css/doigt_rouge_7_tr.gif") no-repeat center left;
+}
+
+/* divers box */
+
+.largebox {
+   	margin: 5px 5px 10px 5px;
+}
+
+.centerbox {
+	text-align: center;
+   	margin: 5px;
+   	padding: 10px;
+}
+
+.leftbox {
+   	margin: 5px;
+   	padding: 10px;
+}
+
+.imgleft {
+    float: left;
+    padding: 5px 10px 5px 0px;
+}
+
+/* presentation ressources */
+
+.resourceForm {
+    font-size: 12px;
+}
+
+.resourceForm tr {
+	vertical-align:top;
+}
+
+.resourceForm th {
+    font-weight: bold;
+    color: #466EA0;
+    text-align: right;
+    padding: 2px 5px 0 0;
+    width: 40%;
+}
+
+.resourceForm td {
+    color: #000000;
+    text-align: left;
+    padding: 2px 0 0 5px;
+    width: 60%;
+}
+
+/* overlib div */
+
+#overDiv {
+	border: 1px solid #333399;
+}
+
+#overDiv ul {
+	margin: 10px 0 10px 30px;
+}
+
+/* presentation box */
+
+#presentation {
+    height: 170px;
+    width:550px;
+    float: left;
+    clear: both;
+}
+
+/* nouveautes box */
+
+#nouveautes {
+    height: 170px;
+    width:250px;
+    float: right;
+}
+
+#nouveautes p {
+    font-size: 8pt;
+    padding: 5px 0 0 0;
+}
+
+/* ressources box */
+
+#ressources {
+    width:676px;
+    float: right;
+}
+
+#ressources p {
+	margin-bottom: 5px;
+}
+
+/* divers */
+
+.para {
+    clear: both;
+    margin-bottom: 5px;
+}
+
+.title {
+    padding-left: 15px;
+    background: url("/images/css/arw1.gif") no-repeat center left;
+}
+
+.spacer {
+    margin: 0;
+    padding: 0;
+    clear: both;
+}
+
+.cnrtl_form {
+	color: #000000;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+ul.custom_list {
+	list-style: none;
+}
+ul.custom_list li {
+	padding-left: 10px;
+	background: url("/images/css/carre_bleu_5.gif") no-repeat 0px 3px;
+}
+
+/* separateurs */
+hr.grey {
+	text-align: center;
+	width: 80%;
+	border: 0;
+	border-top: 1px solid #cccccc;
+	height: 1px;
+	margin: 10px auto 5px auto;
+}
+
+.sous_paragraphe {
+	padding: 0px 10px 0px 20px;
+}
+
+.simple_table {
+	font-size: 12px;
+	border-collapse: collapse;
+	border: #111 1px solid;
+	color: #000000;
+	vertical-align: top;
+	padding-left: 10px;
+	margin: 5px auto;
+}
+
+.blue_table {
+	font-size: 9pt;
+	border: #111 1px solid;
+	color: #000000;
+	vertical-align: top;
+	margin: 5px auto;
+}
+
+.blue_table th {
+	font-weight: bold;
+	background-color: #ccf;
+}
