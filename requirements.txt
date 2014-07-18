@@ -1,0 +1,4 @@
+gunicorn
+flask
+requests
+git+ssh://192.168.122.99/var-hdd/git/cello/@master

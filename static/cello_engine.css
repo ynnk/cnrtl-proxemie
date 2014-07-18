@@ -1,0 +1,109 @@
+/* Basic CSS for Cello Engine configuration views (keb) */
+
+.engine {
+    padding:0px;
+    margin-bottom: 5px;
+    width: 100%;
+    text-align:center;
+}
+
+
+.engine .blocks{
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 900;
+}
+.engine .blocks .opt_panel{
+}
+
+.engine .optbuttons  {
+}
+
+.engine .optbuttons div.btnopt {
+    color:#333;
+    border: 1px solid #AAA;
+    padding: 7px;
+    margin-right: 3px;
+    moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    text-align: left;
+    cursor:pointer;
+    display:inline-block;
+    max-width:180px;
+    background-image: linear-gradient(#EEE, #E2E9E9)
+}
+
+.engine .optbuttons div.btnopt.active  {
+    background-color:#CFD1CF;
+}
+
+.engine .optbuttons div.head {
+    margin-left: 25px;
+    margin-right: 12px;
+    margin-top: -3px;
+    font-weight: bold;
+    color: #444;
+}
+
+.engine div.helpers {
+    text-align: right;
+    margin-right: 42px;
+    display: block;
+}
+
+.engine .optionables{
+    padding-right: 18px;
+    padding-left: 74px;
+    padding-top: 7px;
+    padding-bottom: 10px;
+    margin-top: 8px;
+    text-align: left;
+    width: 650px;
+    moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    border-image: initial;
+    z-index: 2;
+    border: 1px solid #AAA;
+    margin:auto;
+    background-image: linear-gradient(#EEE, #E2E9E9);
+}
+
+
+.engine .optionables div.optionable {
+    padding-left: 10px;
+    padding-top: 8px;
+    margin-top: 4px;
+    margin-left: -6px;
+    border: 1px solid #EEE;
+    border-radius: 6px;
+    cursor:pointer;
+}
+
+.engine .optionables div.optionable:hover{
+    border: 1px solid #CCC;
+}
+
+.engine div.optionable.active {
+    background-color: #CFD1CF;
+    border: 1px solid #AAA;
+    background-image: linear-gradient( #EAEAEA, #d5d9d0);
+    padding-bottom:5px;
+}
+
+.engine div.optionable form{
+    display:none;
+}
+.engine div.optionable.active form{
+    display:block;
+}
+.engine .optionable h1{
+    margin-top: 4px;
+    font-size:20px;
+}
+
+.engine .optionable label{
+    display:inline;
+}

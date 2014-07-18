@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Naviprox</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--  require JS    -->
+    <script data-main="{{url_for('static', filename='main')}}" src="{{url_for('static', filename='lib/require.js')}}"></script>
+    <script>
+        // choice of the app to load
+        define('global', {
+            app: 'app_graph',
+        });
+    </script>
+
+    <!--  Bootstrap CSS    -->
+    <link rel="stylesheet" href="{{url_for('static', filename='lib/bootstrap/css/bootstrap.min.css')}}" type="text/css" />
+
+    <!--  our CSS    -->
+    <link rel="stylesheet" href="{{url_for('static', filename='cello_engine.css')}}" type="text/css" />
+    <link rel="stylesheet" href="{{url_for('static', filename='app_graph.css')}}" type="text/css" />
+
+
+    <script id="ClusterLabel" type="text/template">
+        <a href='#' class='clabel' style='font-size:<%= size %>px' alt='graph from \'<%= label %>\''><%= label %></a>
+    </script>
+
+</head>
+
+<body>
+<div id='page' data-root-url='{{ root_url }}'>
+
+    <div id="loading-indicator" style="display:none;" >
+        <div class="container"><img src="{{url_for('static', filename='loading.gif')}}" /></div>
+    </div>
+
+
+    <div class="content"><div class="content_aux">
+        <div id='vz_threejs_main'>
+        </div>
+
+        <div id='clustering_items' class='text-center'>
+        </div>
+
+    </div></div><!-- /.content -->
+
+    <div id='footer'>
+        <div class="container text-center">
+        </div>
+    </div>
+
+</div> <!-- /.page -->
+</body>
+</html>

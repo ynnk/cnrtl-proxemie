@@ -1,0 +1,8 @@
+# the lib
+cello_libjs
+
+# ignore editor temp files
+*~
+# ignore pyc files
+*.pyc
+
