@@ -207,7 +207,7 @@ define([
             var query = kwargs.query;
             // change the url
             app.router.navigate("q/"+query);
-            //Cello.utils.piwikTrackCurrentUrl(); // force piwik (if any) to track the new 'page'
+            Cello.utils.piwikTrackCurrentUrl(); // force piwik (if any) to track the new 'page'
             //start waiting
             $("#loading-indicator").show(0);
         },
