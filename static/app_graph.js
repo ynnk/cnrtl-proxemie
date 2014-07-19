@@ -87,11 +87,6 @@ define([
                 
                 /* Click sur le label, */
                 clicked: function(){
-                    //note: here component "ClusterLabel" is hard linked to the app
-                    // i.e. the global "app" is used !
-                    // 
-                    // it is acceptable here but it should not be the rule
-                    // especialy if you want to mv this object in the lib
                     app.navigate_to_label(this.model.label);
                 },
                 
@@ -115,8 +110,7 @@ define([
                 ItemView: ClusterItem,
                 el: $("#clustering_items"),
             }).render();
-            $("#clustering_items").show(); // make it visible
-
+            //$("#clustering_items").show(); // make it visible
 
             /** Create view for graph */
 
@@ -219,7 +213,6 @@ define([
         },
 
         /** when a search response arrive (in success)
-         *
          */
         engine_play_completed: function(response, args, state){
             var app = this;
@@ -355,8 +348,7 @@ define([
 
                 search: function(query){
                     console.log("<router> search start");
-                    app.models.query.set('query', query);
-                    app.models.query.run_search();
+                    app.navigate_to_label(query)
                     //note: results view are open on callback
                 }
             });

@@ -34,19 +34,6 @@ html, body{
     display: table-row;
 }
 
-
-/* div over the content page (graph)*/
-#other_side {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 72%;
-    max-height: 98%;
-    text-align: left;
-    overflow:auto;
-}
-
-
 /* Graph */
 #vz_threejs_main {
     position: absolute;
@@ -68,115 +55,46 @@ html, body{
     right:0;
 }
 #loading-indicator>div {
-    text-align: right
+    text-align: left
 }
 #loading-indicator>div>img {
     margin: 13px;
 }
-@media (min-width: 768px) {
-    #loading-indicator>div>img {
-        margin-right: -15px;
-    }
-}
-
-/* -------- Footer -------- */
-#footer {
-  background-color: #F8F8F8;
-}
-
-#footer > .container {
-  padding-top: 5px;
-  padding-right: 15px;
-  padding-left: 15px;
-}
-
-#footer a {
-    color:#444;
-}
 
 /* ------ Components  ------ */
 
-/* -- Query -- */
-#query_home_contener{
-    position: absolute;
-    width:100%;
-    margin-top: 10%;
-    z-index: 500;
+#ctrl-cluster.collapsed:hover{
+    background-color: #fff;
 }
 
-#query_form {
-    border-bottom: none;
-}
-/* for screen >= 768 */
-@media (min-width: 768px) {
-    #query_form input.query_input {
-        width: 340px;
-    }
+#ctrl-cluster.collapsed{
+    background-color: #eee;
 }
 
-#query_form .engine_on_off {
-    margin: 3px;
+#ctrl-cluster:hover{
+    background-color: #eee;
 }
 
-#query_form .engine_on_off:hover {
-    text-decoration: none;
+#ctrl-cluster{
+    background-color: #fff;
 }
 
-/* -- Did you mean -- */
-div.suggest{
-    margin-left: 5px;
-}
-
-div.suggest ul {
-    display: inline;
-    margin: 0;
-    padding: 0;
-}
-
-div.suggest ul li{
-    display: inline;
-}
-
-
-div.suggest ul li a em{
-    font-weight: bold;
-}
-
-div.suggest ul li:after{
-    content: ", ";
-}
-
-div.suggest ul li:last-child:after{
-    content: "";
-}
-
-/* -- what in common for more than 2 docs -- */
-#doc_in_common {
-    position: absolute;
-    display: none;
-    bottom: 0px;
-    left: 0px;
-    min-width: 300px;
-    width: 25%;
-    text-align: left;
-    background-color: rgba(240, 240, 242, 0.75);
-    overflow:hidden;
-}
 
 /* -- clustering -- */
-#clustering_items {
+#right_pane {
     position: absolute;
-    display: none;
     top: 0px;
     bottom: 0px;
     right: 0px;
-    min-width: 300px;
+    min-width: 250px;
     width: 25%;
     margin:0;
     text-align: left;
     overflow-y:auto;
     overflow-x:hidden;
     z-index:800
+}
+#clustering_items {
 }
 
 #clustering_items>ul {
@@ -190,7 +108,7 @@ div.suggest ul li:last-child:after{
 }
 
 #clustering_items>ul li.cluster{
-    margin-top: 5px;
+    margin-top: 0px;
     margin-bottom: 5px;
     border-radius: 6px;
     padding: 0px 3px;
