@@ -92,7 +92,8 @@ define([
                 
                 //RMQ: this computation may also be donne directly in the template
                 before_render: function(data){
-                    data.size = 8 + data.score * 10;
+                    console.log(data.label, data.score)
+                    data.size = 9 + data.score / 17.;
                     return data
                 },
             });
@@ -121,7 +122,8 @@ define([
                 edges_color: 0x79878A,
                 background_color: 0xFEFFFE,
                 wnode_scale: function(vtx){
-                    return 25; //TODO
+                    console.log(vtx)
+                    return 15. + vtx.get("gdeg") / 20.;
                 },
             });
             // we want to change the color of edges of selected nodes
