@@ -137,7 +137,8 @@ for gname, config in graphs.iteritems():
 @app.route("/cnrtl/")
 @app.route("/cnrtl/<string:gname>/<string:query>")
 def app_cnrtl(gname='verb', query='causer'):
-    return render_template('cnrtl.html', query=query, url="http://localhost:5000/%s/q/%s" % ( gname, query  ))
+    root_url = "%s%s/" % (url_for("index"), gname)
+    return render_template('cnrtl.html', query=query, url="%sq/%s" % (root_url, query))
 
 @app.route("/<string:gname>/<string:query>")
 @app.route("/<string:gname>/q/<string:query>")
