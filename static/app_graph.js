@@ -35,11 +35,8 @@ define([
         // the views, created in create_*_views()
         views: {},
 
-        // base url, note: over riden by info in template
+        // base url, note: overriden by info in template
         root_url: "/",
-
-        // state of the app;
-        search_results: false, // true if some data are loaded !
 
         // create the models
         create_models: function(){
@@ -239,7 +236,7 @@ define([
             // reset clustering
             app.models.clustering.reset(response.results.clusters);
             // setup the views if needed
-            app.open_results_view();
+            app.create_results_views();
 
             // parse graph
             app.models.graph = new Cello.Graph(response.results.graph, {parse:true});
@@ -262,23 +259,6 @@ define([
             app.views.gviz.set_graph(app.models.graph);
             
             app.models.vertices.reset(app.models.graph.vs.models)
-        },
-
-        // change the views to search results
-        open_results_view: function(force){
-            var app = this;
-            if(!app.search_results || force){
-                app.search_results = true;
-                app.create_results_views();
-            }
-        },
-
-        // change the views to home page
-        open_home_view: function(force){
-            var app = this;
-            if(app.search_results || force){
-                app.search_results = false;
-            }
         },
 
         /** when the search failed
@@ -328,7 +308,6 @@ define([
             app._add_to_global();
 
             app.has_search_results = false // indicate that the search result view is not open
-            app.open_home_view(true);
 
             // --- Binding the app ---
             _.bindAll(this, "engine_play_completed", "cluster_selected", "search_loading");
@@ -358,8 +337,7 @@ define([
 
                 index: function() {
                     console.log('<router> root /');
-                    // index page setup
-                    app.open_home_view();
+                    app.navigate_to_label("_all")
                 },
 
                 search: function(query){
@@ -375,9 +353,6 @@ define([
             app.models.cellist.fetch({ success: function(){
                 // start history
                 Backbone.history.start({pushState: true, root: app.root_url});
-                //// auto play for debug productivity
-                //app.models.query.set('query', 'euro');
-                //app.models.query.run_search();
             }});
 
         },

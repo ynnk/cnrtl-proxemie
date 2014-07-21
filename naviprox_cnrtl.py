@@ -25,46 +25,74 @@ from cello.graphs import export_graph, IN, OUT, ALL
 from cello.layout import export_layout
 from cello.clustering import export_clustering
 
-from cello.graphs.extraction import VtxMatch, ProxMarkovExtractionGlobal
+
+#TODO: should mv in cello
+#TODO: should add test
+from cello.graphs.extraction import VtxMatch
 import cello.graphs.prox as prox
+
 class ProxColors(Optionable):
+    """ Add color to each vertices of a subgraph.
+    Colors are computed from fixed color given of some vertices of a global graph.
+
+    >>> # at init time one can build a graph, a subgraph extractor and a ProxColor isntance:
+    >>> import igraph as ig
+    >>> g = ig.Graph.Formula("a--b--c--d--e--f--g--h--i--j")
+    >>> from cello.graphs.builder import Subgraph
+    >>> subgraph_builder = Subgraph(g)
+    >>> add_colors = ProxColors(g, colors={"a":(255, 0, 0), "c":(0, 255, 0), "j":(0, 0, 255)}, match_attr=u"name")
+    >>> #
+    >>> # then online:
+    >>> sg = subgraph_builder([0, 2, 4, 6, 9])
+    >>> sg = add_colors(sg)
+    >>> sg.vs["name"]
+    ['a', 'c', 'e', 'g', 'j']
+    >>> sg.vs["prox_color"]
+    [(255, 95, 0), (191, 255, 0), (0, 255, 0), (0, 0, 255), (0, 0, 255)]
+
     """
-     color component 
-     set color from a set of color gie to specifiq vertices
-     :param igraph: Igraph graph
-     :param colors: dict of label and colors(r,v,b 255).
-        
-    """
-    def __init__(self, graph, colors={}, name='ProxColors'):
-        Optionable.__init__(self, name)
+    def __init__(self, graph, colors={}, match_attr=u"label", out_attr="prox_color", length=3, name=None):
+        """
+        :param graph: gobal graph
+        :param colors: dict of label and colors(r,v,b 255)
+        :param match_attr: vertex attribute used to identify vertices (from `colors` input dict)
+        :param out_attr: vertex attribute used to store computed colors
+        :param length: length of the random walks to use to compute subgraph vertices colors
+        :param name: name of the component
+        """
+        super(ProxColors, self).__init__(name)
+        # store attributes
         self.graph = graph
         self.colors = colors
-        self.vertices_color = {}
-        
+        self.out_attr = out_attr
+        # compute prox line for each color vertex
+        # add store color of each these vertex
         self.plines = {}
+        self.vertices_color = {}
         # vertex id in global grah, color as (r,g,b)
-        match = VtxMatch(graph, attr_list=[u"label"], default_attr=u"label")
+        match = VtxMatch(graph, attr_list=[match_attr], default_attr=match_attr)
         extract = prox.prox_markov_dict
         for label, color in colors.iteritems():
             gid, score = match(label).items()[0]
             self.vertices_color[gid] = color
-            self.plines[gid] = extract(graph,[gid], length=3 )
+            self.plines[gid] = extract(graph, [gid], length=length, add_loops=True)
 
-    def __call__(self, graph):
+    def __call__(self, subgraph):
         colors = []
-        for idx, vid in enumerate(graph.vs["gid"]):
-            cr,cg,cb = (0,0,0) # color in [0,1]
-            for cgid, (r,g,b) in self.vertices_color.iteritems():
+        for idx, vid in enumerate(subgraph.vs["gid"]):
+            cr, cg, cb = (0,0,0) # color in [0,1]
+            for cgid, (r, g, b) in self.vertices_color.iteritems():
                 value = self.plines[cgid].get(vid, .0)
                 cr += r * value
                 cg += g * value
                 cb += b * value
             maxRVB = float(max(cr, cg, cb))
-            if maxRVB > 0 :
+            if maxRVB > 0:
                 cr, cg, cb = [int(255*u) for u in [cr/maxRVB , cg/maxRVB , cb/maxRVB]]
             colors.append((cr,cg,cb))
-        graph.vs['prox_color'] = colors
-        return graph
+        subgraph.vs[self.out_attr] = colors
+        return subgraph
+
 
 def lexical_graph_engine(graph):
     """ Return a default engine over a lexical graph
@@ -84,25 +112,25 @@ def lexical_graph_engine(graph):
     if 'id' in graph.vs.attributes():
         del graph.vs['id']
     
-    # little hack pour avoir le global , a virer apres tests si pas besoin
+
+    # Pour avoir une recherche "_all"
     # http://localhost:5000/verb/q/_all
-    def  search(query, *args, **kwargs):
-        if query in ("_all", None) :
-            return []
-        else:
-            match = VtxMatch(graph, attr_list=[u"label"], default_attr=u"label")
-            return match(query, *args, **kwargs)
-            
-    graph_search = Composable(search)
+    @Composable
+    def nothing_if_all(query):
+        """ Make the query be nothing if it is '_all'
+        """
+        if query in ("_all", None):
+            return ""   #Note: p0 to [] make start from all vertices
+        return query
+
+    # real match search
+    match = VtxMatch(graph, attr_list=[u"label"], default_attr=u"label")
+
+    graph_search = nothing_if_all | match
     graph_search |= ProxMarkovExtractionGlobal(graph)
     graph_search |= Subgraph(graph, score_attr="prox", gdeg_attr="gdeg")
-    graph_search |= ProxColors( graph, graph['vertices_color'] )
+    graph_search |= ProxColors(graph, graph['vertices_color'])
     graph_search.name = "ProxSearch"
-
-    #TODO: add better color to vtx 
-    # what is better ???
-    from cello.graphs.transform import VtxAttr
-    graph_search |= VtxAttr(color=[(45, 200, 34), ])
 
     graph_search.change_option_default("vcount", 50)
     engine.search.set(graph_search)
@@ -191,26 +219,26 @@ graphs = {
 # index page
 @app.route("/")
 def index():
+    #TODO: better index page ?
     return "<a href='www.kodexlab.com'>www.kodexlab.com</a>"
 
 ## build and register the CELLO APIs
 for gname, config in graphs.iteritems():
+    # create a copy of the config
     _config = {}
     _config.update(config)
-    graph = igraph.read(_config.pop("path"))
-    for k,v in _config.iteritems():
-        print k,v
-        graph[k] = v
+    # load the graph
+    graph_path = _config.pop("path")
+    graph = igraph.read(graph_path)
+    # copy config into graph attr
+    for key, value in _config.iteritems():
+        graph[key] = value
+    # create the api and register it
     api = naviprox_api(graph, engine_builder=config.get("engine_builder", None))
     app.register_blueprint(api, url_prefix="/%s/api" % gname)
 
-## build other entry point of the app
-@app.route("/cnrtl/")
-@app.route("/cnrtl/<string:gname>/<string:query>")
-def app_cnrtl(gname='verb', query='causer'):
-    root_url = "%s%s/" % (url_for("index"), gname)
-    return render_template('cnrtl.html', query=query, url="%sq/%s" % (root_url, query))
 
+# main entry HTML entry points
 @app.route("/<string:gname>/")
 @app.route("/<string:gname>/<string:query>")
 @app.route("/<string:gname>/q/<string:query>")
@@ -220,6 +248,14 @@ def app_graph(gname, query=None):
     if gname not in graphs:
         abort(404)
     return render_template('index_graph.html', gname=gname, root_url=root_url)
+
+
+## build other entry point of the app
+@app.route("/cnrtl/")
+@app.route("/cnrtl/<string:gname>/<string:query>")
+def app_cnrtl(gname='verb', query='causer'):
+    root_url = "%s%s/" % (url_for("index"), gname)
+    return render_template('cnrtl.html', query=query, url="%sq/%s" % (root_url, query))
 
 
 def main():
