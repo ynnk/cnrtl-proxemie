@@ -65,6 +65,9 @@ define([
             // --- Clustering model ---
             // Clustering model and view
             app.models.clustering = new Cello.Clustering({});
+            
+            app.models.vertices = new Cello.DocList();
+
         },
 
         /** 
@@ -112,6 +115,13 @@ define([
                 el: $("#clustering_items"),
             }).render();
             //$("#clustering_items").show(); // make it visible
+
+            // vertex sorted by proxemy
+            app.views.proxemy = new Cello.ui.list.ListView({
+                model : app.models.vertices,
+                ItemView: Cello.ui.list.ListItemView,
+                el: $("#proxemy_items"),
+            }).render();
 
             /** Create view for graph */
 
@@ -250,6 +260,8 @@ define([
 
             // reset graph visualization
             app.views.gviz.set_graph(app.models.graph);
+            
+            app.models.vertices.reset(app.models.graph.vs.models)
         },
 
         // change the views to search results
