@@ -121,6 +121,7 @@ define([
                 model: app.models.vizmodel,
                 edges_color: 0x79878A,
                 background_color: 0xFEFFFE,
+                text_scale : 0.12,
                 wnode_scale: function(vtx){
                     console.log(vtx)
                     return 15. + vtx.get("gdeg") / 20.;
@@ -244,6 +245,7 @@ define([
                 model.set('default_color', model.get('color'))
                 var cid = app.models.clustering.membership[model.id]
                 model.set('color', app.models.clustering.cluster(cid[0]).color);
+                model.set('color', model.get('prox_color'))
             });
 
             // reset graph visualization

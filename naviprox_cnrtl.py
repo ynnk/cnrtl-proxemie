@@ -15,7 +15,7 @@ from cello.utils.web import CelloFlaskView
 
 from cello.engine import Engine
 
-from cello.pipeline import Composable
+from cello.pipeline import Composable, Optionable
 from cello.options import ValueOption
 from cello.utils import urllib2_json_urlopen, urllib2_setup_proxy
 
@@ -24,6 +24,47 @@ from cello.export import export_docs
 from cello.graphs import export_graph, IN, OUT, ALL
 from cello.layout import export_layout
 from cello.clustering import export_clustering
+
+from cello.graphs.extraction import VtxMatch, ProxMarkovExtractionGlobal
+import cello.graphs.prox as prox
+class ProxColors(Optionable):
+    """
+     color component 
+     set color from a set of color gie to specifiq vertices
+     :param igraph: Igraph graph
+     :param colors: dict of label and colors(r,v,b 255).
+        
+    """
+    def __init__(self, graph, colors={}, name='ProxColors'):
+        Optionable.__init__(self, name)
+        self.graph = graph
+        self.colors = colors
+        self.vertices_color = {}
+        
+        self.plines = {}
+        # vertex id in global grah, color as (r,g,b)
+        match = VtxMatch(graph, attr_list=[u"label"], default_attr=u"label")
+        extract = prox.prox_markov_dict
+        for label, color in colors.iteritems():
+            gid, score = match(label).items()[0]
+            self.vertices_color[gid] = color
+            self.plines[gid] = extract(graph,[gid], length=3 )
+
+    def __call__(self, graph):
+        colors = []
+        for idx, vid in enumerate(graph.vs["gid"]):
+            cr,cg,cb = (0,0,0) # color in [0,1]
+            for cgid, (r,g,b) in self.vertices_color.iteritems():
+                value = self.plines[cgid].get(vid, .0)
+                cr += r * value
+                cg += g * value
+                cb += b * value
+            maxRVB = float(max(cr, cg, cb))
+            if maxRVB > 0 :
+                cr, cg, cb = [int(255*u) for u in [cr/maxRVB , cg/maxRVB , cb/maxRVB]]
+            colors.append((cr,cg,cb))
+        graph.vs['prox_color'] = colors
+        return graph
 
 def lexical_graph_engine(graph):
     """ Return a default engine over a lexical graph
@@ -42,12 +83,24 @@ def lexical_graph_engine(graph):
     #HACK remove the "id" attribute (if any), it enter in conflict when exporting subgraphs to client
     if 'id' in graph.vs.attributes():
         del graph.vs['id']
-    graph_search = VtxMatch(graph, attr_list=[u"label"], default_attr=u"label")
+    
+    # little hack pour avoir le global , a virer apres tests si pas besoin
+    # http://localhost:5000/verb/q/_all
+    def  search(query, *args, **kwargs):
+        if query in ("_all", None) :
+            return []
+        else:
+            match = VtxMatch(graph, attr_list=[u"label"], default_attr=u"label")
+            return match(query, *args, **kwargs)
+            
+    graph_search = Composable(search)
     graph_search |= ProxMarkovExtractionGlobal(graph)
     graph_search |= Subgraph(graph, score_attr="prox", gdeg_attr="gdeg")
+    graph_search |= ProxColors( graph, graph['vertices_color'] )
     graph_search.name = "ProxSearch"
 
-    #TODO: add better color to vtx
+    #TODO: add better color to vtx 
+    # what is better ???
     from cello.graphs.transform import VtxAttr
     graph_search |= VtxAttr(color=[(45, 200, 34), ])
 
@@ -114,12 +167,24 @@ except KeyError:
 graphs = {
     "verb": {
         "path": os.path.join(BASEDIR, "Graphs/dicosyn/dicosyn/V.dicosyn.pickle"),
+        "vertices_color": {'casser': (255,150,0),
+                          'fixer': (200,255,0),
+                          'fuir': (50,50,255),
+                          'exciter': (255,50,50)},
     },
     "noun": {
         "path": os.path.join(BASEDIR, "Graphs/dicosyn/dicosyn/N.dicosyn.pickle"),
+        "vertices_color": {'ruine': (255,150,0),
+                          'aspect': (200,255,0),
+                          'association': (50,50,255),
+                          'passion': (255,50,50)},
     },
     "adj": {
         "path": os.path.join(BASEDIR, "Graphs/dicosyn/dicosyn/A.dicosyn.pickle"),
+        "vertices_color": {'fort': (255,150,0),
+                          'bon': (200,255,0),
+                          'faible': (50,50,255),
+                          'mauvais': (255,50,50)},
     },
 }
 
@@ -130,7 +195,12 @@ def index():
 
 ## build and register the CELLO APIs
 for gname, config in graphs.iteritems():
-    graph = igraph.read(config["path"])
+    _config = {}
+    _config.update(config)
+    graph = igraph.read(_config.pop("path"))
+    for k,v in _config.iteritems():
+        print k,v
+        graph[k] = v
     api = naviprox_api(graph, engine_builder=config.get("engine_builder", None))
     app.register_blueprint(api, url_prefix="/%s/api" % gname)
 
