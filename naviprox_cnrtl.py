@@ -44,7 +44,7 @@ def lexical_graph_engine(graph):
         del graph.vs['id']
     graph_search = VtxMatch(graph, attr_list=[u"label"], default_attr=u"label")
     graph_search |= ProxMarkovExtractionGlobal(graph)
-    graph_search |= Subgraph(graph, score_attr="prox")
+    graph_search |= Subgraph(graph, score_attr="prox", gdeg_attr="gdeg")
     graph_search.name = "ProxSearch"
 
     #TODO: add better color to vtx
@@ -65,7 +65,8 @@ def lexical_graph_engine(graph):
     ## Labelling
     from cello.clustering.labelling.model import Label
     from cello.clustering.labelling.basic import VertexAsLabel
-    engine.labelling.set(VertexAsLabel(lambda graph, cluster, vtx: Label(vtx["label"], role="default")))
+    vertex_from_vtx = lambda graph, cluster, vtx: Label(vtx["label"], role="default", score=vtx["gdeg"])
+    engine.labelling.set(VertexAsLabel(vertex_from_vtx))
 
     ## Layout
     from cello.layout.simple import KamadaKawaiLayout
@@ -137,7 +138,8 @@ for gname, config in graphs.iteritems():
 @app.route("/cnrtl/")
 @app.route("/cnrtl/<string:gname>/<string:query>")
 def app_cnrtl(gname='verb', query='causer'):
-    return render_template('cnrtl.html', query=query, url="http://localhost:5000/%s/q/%s" % ( gname, query  ))
+    root_url = "%s%s/" % (url_for("index"), gname)
+    return render_template('cnrtl.html', query=query, url="%sq/%s" % (root_url, query))
 
 @app.route("/<string:gname>/")
 @app.route("/<string:gname>/<string:query>")

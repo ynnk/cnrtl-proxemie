@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Naviprox</title>
+    <title>Naviprox for CNRTL</title>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,9 +20,7 @@
     <link rel="stylesheet" href="{{url_for('static', filename='lib/bootstrap/css/bootstrap.min.css')}}" type="text/css" />
 
     <!--  our CSS    -->
-    <link rel="stylesheet" href="{{url_for('static', filename='cello_engine.css')}}" type="text/css" />
     <link rel="stylesheet" href="{{url_for('static', filename='app_graph.css')}}" type="text/css" />
-
 
     <script id="ClusterLabel" type="text/template">
 <!--
@@ -46,7 +44,18 @@
         <div id='other_side'></div>
         <div id='vz_threejs_main'></div>
 
-        <div id='clustering_items' class='text-center'>
+        <div id='right_pane' class="text-right">
+
+            <div class="ctrl clearfix">
+                <div class="btn-group btn-group-xs pull-right">
+                    <button id="ctrl-cluster" type="button" class="btn btn-default collapsed" data-toggle="collapse" data-target="#clustering_items">
+                      clusters
+                    </button>
+                </div>
+            </div>
+
+            <div id='clustering_items' class="text-center collapse">
+            </div>
         </div>
 
     </div></div><!-- /.content -->
@@ -57,5 +66,20 @@
     </div>
 
 </div> <!-- /.page -->
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://stats.kodexlab.com/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 6]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="http://stats.kodexlab.com/piwik.php?idsite=6" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
 </body>
 </html>

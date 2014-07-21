@@ -87,17 +87,13 @@ define([
                 
                 /* Click sur le label, */
                 clicked: function(){
-                    //note: here component "ClusterLabel" is hard linked to the app
-                    // i.e. the global "app" is used !
-                    // 
-                    // it is acceptable here but it should not be the rule
-                    // especialy if you want to mv this object in the lib
                     app.navigate_to_label(this.model.label);
                 },
                 
                 //RMQ: this computation may also be donne directly in the template
                 before_render: function(data){
-                    data.size = 8 + data.score * 10;
+                    console.log(data.label, data.score)
+                    data.size = 9 + data.score / 17.;
                     return data
                 },
             });
@@ -115,8 +111,7 @@ define([
                 ItemView: ClusterItem,
                 el: $("#clustering_items"),
             }).render();
-            $("#clustering_items").show(); // make it visible
-
+            //$("#clustering_items").show(); // make it visible
 
             /** Create view for graph */
 
@@ -127,7 +122,8 @@ define([
                 edges_color: 0x79878A,
                 background_color: 0xFEFFFE,
                 wnode_scale: function(vtx){
-                    return 25; //TODO
+                    console.log(vtx)
+                    return 15. + vtx.get("gdeg") / 20.;
                 },
             });
             // we want to change the color of edges of selected nodes
@@ -213,13 +209,12 @@ define([
             var query = kwargs.query;
             // change the url
             app.router.navigate("q/"+query);
-            //Cello.utils.piwikTrackCurrentUrl(); // force piwik (if any) to track the new 'page'
+            Cello.utils.piwikTrackCurrentUrl(); // force piwik (if any) to track the new 'page'
             //start waiting
             $("#loading-indicator").show(0);
         },
 
         /** when a search response arrive (in success)
-         *
          */
         engine_play_completed: function(response, args, state){
             var app = this;
@@ -355,8 +350,7 @@ define([
 
                 search: function(query){
                     console.log("<router> search start");
-                    app.models.query.set('query', query);
-                    app.models.query.run_search();
+                    app.navigate_to_label(query)
                     //note: results view are open on callback
                 }
             });
