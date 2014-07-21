@@ -25,7 +25,10 @@
 
 
     <script id="ClusterLabel" type="text/template">
+<!--
         <a href='#' class='clabel' style='font-size:<%= size %>px' alt='graph from \'<%= label %>\''><%= label %></a>
+-->
+        <a href='#' class='clabel' style='font-size:12px' alt='graph from \'<%= label %>\''><%= label %></a>
     </script>
 
 </head>
@@ -38,9 +41,10 @@
     </div>
 
 
+    <div class="head">head</div>
     <div class="content"><div class="content_aux">
-        <div id='vz_threejs_main'>
-        </div>
+        <div id='other_side'></div>
+        <div id='vz_threejs_main'></div>
 
         <div id='clustering_items' class='text-center'>
         </div>
