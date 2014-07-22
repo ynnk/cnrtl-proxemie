@@ -117,7 +117,6 @@ html, body{
 #clustering_items>ul {
     list-style: none;
     padding: 0px;
-    line-height: 180%;
 }
 
 #clustering_items>ul.cluster.active {
@@ -148,11 +147,13 @@ html, body{
 #clustering_items>ul li.cluster ul.label_list{
     list-style: none;
     padding: 0px;
+    padding-bottom: 3px;
 }
 
 #clustering_items>ul li.cluster li.clabel{
     list-style: none;
     display: inline-block;
+    height: 1.1em;
     margin-top: 0px;
     margin-bottom: 0px;
     margin-right: 3px;
