@@ -45,20 +45,24 @@
             <div class="pane_head">
                 <div id="right_pane_ctrl" class="ctrl clearfix">
                     <div class="btn-group btn-group-xs pull-right">
-                        <button id="ctrl-cluster" type="button" class="btn btn-default collapsed" data-toggle="collapse" data-target="#clustering_items">
+                        <button id="ctrl-cluster" type="button" class="btn btn-default collapsed" data-toggle="collapse" data-target="#clustering_items" data-parent="#right_pane_accordion">
                           clusters
                         </button>
-                        <button id="ctrl-proxemy" type="button" class="btn btn-default collapsed" data-toggle="collapse" data-target="#proxemy_items">
+                        <button id="ctrl-proxemy" type="button" class="btn btn-default collapsed" data-toggle="collapse" data-target="#proxemy_items" data-parent="#right_pane_accordion">
                           liste
                         </button>
                     </div>
                 </div>
             </div>
             <div class="pane_items">
-                <div id='clustering_items' class="text-center collapse">
-                </div>
-                <div id='proxemy_items' class="text-center collapse">
-                </div>
+                <div id="right_pane_accordion" class="panel-group">
+                    <div class="panel">
+                        <div class="accordion-body collapse" id="clustering_items"></div>
+                    </div>
+                    <div class="panel">
+                        <div class="accordion-body collapse" id="proxemy_items"></div>
+                    </div>
+                <div>
             </div>
         </div>
 

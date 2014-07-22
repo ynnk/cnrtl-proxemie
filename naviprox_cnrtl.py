@@ -129,7 +129,7 @@ def lexical_graph_engine(graph):
     graph_search = nothing_if_all | match
     graph_search |= ProxMarkovExtractionGlobal(graph)
     graph_search |= Subgraph(graph, score_attr="prox", gdeg_attr="gdeg")
-    graph_search |= ProxColors(graph, graph['vertices_color'])
+    graph_search |= ProxColors(graph, graph['vertices_color'], length=5)
     graph_search.name = "ProxSearch"
 
     graph_search.change_option_default("vcount", 50)

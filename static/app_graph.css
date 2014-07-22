@@ -64,14 +64,6 @@ html, body{
 
 /* ------ Components  ------ */
 
-#right_pane_ctrl button.collapsed:hover{
-    background-color: #fff;
-}
-
-#right_pane_ctrl button.collapsed{
-    background-color: #eee;
-}
-
 #right_pane_ctrl button:hover{
     background-color: #eee;
 }
@@ -107,6 +99,13 @@ html, body{
     overflow-y:auto;
     overflow-x:hidden;
     z-index: 800;
+}
+
+#right_pane .pane_items .panel{
+    border: 0;
+    -webkit-box-shadow: 0 0 0 0;
+    box-shadow: 0 0 0 0;
+    background-color: inherit;
 }
 
 /* -- clustering -- */
@@ -175,4 +174,10 @@ html, body{
     text-decoration: underline;
 }
 
+
+/* -- vtx list -- */
+
+#proxemy_items {
+    background-color: rgba(50, 50, 50, 0.2);
+}
 
