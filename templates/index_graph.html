@@ -25,6 +25,16 @@
     <script id="ClusterLabel" type="text/template">
         <a href='#' class='clabel' style='font-size:<%= size %>px' alt='graph from \'<%= label %>\''><%= label %></a>
     </script>
+    
+<!--
+            <%=css_gradient(model.get('color'), color_darker(model.get('color')) )%>
+-->
+    <script id="ListLabel" type="text/template">
+        <span>
+            <div class='puce' style='background-color:rgb(<%=color%>);'></div>
+    <a class='btn btn-link'><%=label %></a>
+        </span>
+    </script>
 
 </head>
 

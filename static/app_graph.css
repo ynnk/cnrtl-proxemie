@@ -180,4 +180,16 @@ html, body{
 #proxemy_items {
     background-color: rgba(50, 50, 50, 0.2);
 }
+#proxemy_items  li { list-style:none;}
+#proxemy_items div.puce {
+/*
+    margin-top: -2px;
+    vertical-align:top;
+*/
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-left: 3px;
+    border-radius: 15px;
+}
 

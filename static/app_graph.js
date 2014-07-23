@@ -63,6 +63,7 @@ define([
             // Clustering model and view
             app.models.clustering = new Cello.Clustering({});
             
+            // --- List model ---
             app.models.vertices = new Cello.DocList();
 
         },
@@ -114,11 +115,25 @@ define([
             //$("#clustering_items").show(); // make it visible
 
             // vertex sorted by proxemy
+            var ListItemView = Cello.ui.list.ListItemView.extend({
+                template: _.template($("#ListLabel").html()),
+            });
             app.views.proxemy = new Cello.ui.list.ListView({
                 model : app.models.vertices,
-                ItemView: Cello.ui.list.ListItemView,
+                ItemView: ListItemView,
                 el: $("#proxemy_items"),
             }).render();
+            
+            // choices button cluster, liste
+            // TODO: dont know how to bind on bootstrap call 
+            $('#ctrl-proxemy').on('click', function (e) {
+                app.models.graph.vs.copy_attr('prox_color', 'color');
+                app.views.gviz.render();
+            });
+            $('#ctrl-cluster').on('click', function (e) {
+                app.models.graph.vs.copy_attr('cl_color', 'color');
+                app.views.gviz.render();
+            });
 
             /** Create view for graph */
 
@@ -130,7 +145,6 @@ define([
                 background_color: 0xFEFFFE,
                 text_scale : 0.12,
                 wnode_scale: function(vtx){
-                    console.log(vtx)
                     return 15. + vtx.get("gdeg") / 20.;
                 },
             });
@@ -247,17 +261,18 @@ define([
                 app.models.graph.vs.get(i).set("coords", coords[i]);
             }
 
-            // put colors on graph nodes
+            // set cluster colors 
             _.map(app.models.graph.vs.select({}), function(model){
                 model.set('default_color', model.get('color'))
                 var cid = app.models.clustering.membership[model.id]
-                model.set('color', app.models.clustering.cluster(cid[0]).color);
-                model.set('color', model.get('prox_color'))
+                model.set('cl_color', app.models.clustering.cluster(cid[0]).color);
             });
+            // FIXME :
+            // default color does not depend on visible panel
+            app.models.graph.vs.copy_attr('prox_color', 'color');
 
             // reset graph visualization
             app.views.gviz.set_graph(app.models.graph);
-            
             app.models.vertices.reset(app.models.graph.vs.models)
         },
 

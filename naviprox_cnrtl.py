@@ -195,8 +195,8 @@ except KeyError:
 graphs = {
     "verb": {
         "path": os.path.join(BASEDIR, "Graphs/dicosyn/dicosyn/V.dicosyn.pickle"),
-        "vertices_color": {'casser': (255,150,0),
-                          'fixer': (200,255,0),
+        "vertices_color": {'casser':(200,255,0),
+                          'fixer':  (255,150,0),
                           'fuir': (50,50,255),
                           'exciter': (255,50,50)},
     },
