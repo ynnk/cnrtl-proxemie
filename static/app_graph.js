@@ -112,26 +112,50 @@ define([
                 ItemView: ClusterItem,
                 el: $("#clustering_items"),
             }).render();
-            //$("#clustering_items").show(); // make it visible
+
+            // when #clustering_items is "show" change graph colors
+            $('#clustering_items').on('show.bs.collapse', function () {
+                app.models.graph.vs.copy_attr('cl_color', 'color');
+                app.views.gviz.render();
+            });
 
             // vertex sorted by proxemy
             var ListItemView = Cello.ui.list.ListItemView.extend({
                 template: _.template($("#ListLabel").html()),
+                events:{
+                    "click": "clicked",
+                    "mouseover": "mouseover",
+                    "mouseout": "mouseout",
+                },
+                
+                /* Click sur le label, */
+                clicked: function(){
+                    app.navigate_to_label(this.model.get("label"));
+                },
+                
+                mouseover: function(){
+                    console.log("mouseover", this.model);
+                    app.models.vizmodel.set_intersected(this.model.id);
+                    app.views.gviz.render();
+                    //^ XXX to force imediat rendering
+                    // this should be binded by default
+                },
+
+                mouseout: function(){
+                    app.models.vizmodel.set_intersected(null);
+                    app.views.gviz.render();
+                },
             });
+
             app.views.proxemy = new Cello.ui.list.ListView({
                 model : app.models.vertices,
                 ItemView: ListItemView,
                 el: $("#proxemy_items"),
             }).render();
             
-            // choices button cluster, liste
-            // TODO: dont know how to bind on bootstrap call 
-            $('#ctrl-proxemy').on('click', function (e) {
+            // when #proxemy_items is "show" change graph colors
+            $('#proxemy_items').on('show.bs.collapse', function () {
                 app.models.graph.vs.copy_attr('prox_color', 'color');
-                app.views.gviz.render();
-            });
-            $('#ctrl-cluster').on('click', function (e) {
-                app.models.graph.vs.copy_attr('cl_color', 'color');
                 app.views.gviz.render();
             });
 
