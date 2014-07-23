@@ -179,17 +179,20 @@ html, body{
 
 #proxemy_items {
     background-color: rgba(50, 50, 50, 0.2);
+    padding:3px;
 }
-#proxemy_items  li { list-style:none;}
+
+#proxemy_items ul {
+    list-style:none;
+    padding-left: 5px;
+}
+
 #proxemy_items div.puce {
-/*
-    margin-top: -2px;
-    vertical-align:top;
-*/
     display: inline-block;
     width: 12px;
     height: 12px;
     margin-left: 3px;
+    margin-right: 5px;
     border-radius: 15px;
 }
 

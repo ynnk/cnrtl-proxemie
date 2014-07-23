@@ -122,7 +122,31 @@ define([
             // vertex sorted by proxemy
             var ListItemView = Cello.ui.list.ListItemView.extend({
                 template: _.template($("#ListLabel").html()),
+                events:{
+                    "click": "clicked",
+                    "mouseover": "mouseover",
+                    "mouseout": "mouseout",
+                },
+                
+                /* Click sur le label, */
+                clicked: function(){
+                    app.navigate_to_label(this.model.get("label"));
+                },
+                
+                mouseover: function(){
+                    console.log("mouseover", this.model);
+                    app.models.vizmodel.set_intersected(this.model.id);
+                    app.views.gviz.render();
+                    //^ XXX to force imediat rendering
+                    // this should be binded by default
+                },
+
+                mouseout: function(){
+                    app.models.vizmodel.set_intersected(null);
+                    app.views.gviz.render();
+                },
             });
+
             app.views.proxemy = new Cello.ui.list.ListView({
                 model : app.models.vertices,
                 ItemView: ListItemView,
