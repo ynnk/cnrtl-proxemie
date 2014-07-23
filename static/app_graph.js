@@ -93,7 +93,7 @@ define([
                 
                 //RMQ: this computation may also be donne directly in the template
                 before_render: function(data){
-                    console.log(data.label, data.score)
+                    //console.log(data.label, data.score)
                     data.size = 9 + data.score / 17.;
                     return data
                 },
