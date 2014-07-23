@@ -112,7 +112,12 @@ define([
                 ItemView: ClusterItem,
                 el: $("#clustering_items"),
             }).render();
-            //$("#clustering_items").show(); // make it visible
+
+            // when #clustering_items is "show" change graph colors
+            $('#clustering_items').on('show.bs.collapse', function () {
+                app.models.graph.vs.copy_attr('cl_color', 'color');
+                app.views.gviz.render();
+            });
 
             // vertex sorted by proxemy
             var ListItemView = Cello.ui.list.ListItemView.extend({
@@ -124,14 +129,9 @@ define([
                 el: $("#proxemy_items"),
             }).render();
             
-            // choices button cluster, liste
-            // TODO: dont know how to bind on bootstrap call 
-            $('#ctrl-proxemy').on('click', function (e) {
+            // when #proxemy_items is "show" change graph colors
+            $('#proxemy_items').on('show.bs.collapse', function () {
                 app.models.graph.vs.copy_attr('prox_color', 'color');
-                app.views.gviz.render();
-            });
-            $('#ctrl-cluster').on('click', function (e) {
-                app.models.graph.vs.copy_attr('cl_color', 'color');
                 app.views.gviz.render();
             });
 
