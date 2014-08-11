@@ -37,6 +37,8 @@ define([
 
         // base url, note: overriden by info in template
         root_url: "/",
+        
+        inited : false,
 
         // create the models
         create_models: function(){
@@ -72,8 +74,12 @@ define([
          *   Create documents list views
          */
         create_results_views: function(){
-            var app = this;
             
+            if ( _.size(this.views)) 
+                return;
+            
+            var app = this;
+                
             /** Create views for clustering */
             // label view
             // Note: the inheritage is not absolutely needed here, except for label overriding.
@@ -87,7 +93,9 @@ define([
                 },
                 
                 /* Click sur le label, */
-                clicked: function(){
+                clicked: function(event){
+                    event.preventDefault();
+                    event.stopPropagation();
                     app.navigate_to_label(this.model.label);
                 },
                 
@@ -115,8 +123,8 @@ define([
 
             // when #clustering_items is "show" change graph colors
             $('#clustering_items').on('show.bs.collapse', function () {
-                app.models.graph.vs.copy_attr('cl_color', 'color');
-                app.views.gviz.render();
+                app.models.graph.vs.copy_attr('cl_color', 'color',{silent:true});
+                app.views.gviz.update();
             });
 
             // vertex sorted by proxemy
@@ -129,15 +137,16 @@ define([
                 },
                 
                 /* Click sur le label, */
-                clicked: function(){
+                clicked: function(event){
+                    event.preventDefault();
+                    event.stopPropagation();
                     app.navigate_to_label(this.model.get("label"));
                 },
                 
                 mouseover: function(){
-                    console.log("mouseover", this.model);
                     app.models.vizmodel.set_intersected(this.model.id);
                     app.views.gviz.render();
-                    //^ XXX to force imediat rendering
+                    //^ XXX to force immediat rendering
                     // this should be binded by default
                 },
 
@@ -155,8 +164,8 @@ define([
             
             // when #proxemy_items is "show" change graph colors
             $('#proxemy_items').on('show.bs.collapse', function () {
-                app.models.graph.vs.copy_attr('prox_color', 'color');
-                app.views.gviz.render();
+                app.models.graph.vs.copy_attr('prox_color', 'color', {silent:true});
+                app.views.gviz.update();
             });
 
             /** Create view for graph */
@@ -166,10 +175,10 @@ define([
                 el: "#vz_threejs_main",
                 model: app.models.vizmodel,
                 edges_color: 0x79878A,
-                background_color: 0xFEFFFE,
+                background_color: 0xF0F0F0,
                 text_scale : 0.12,
                 wnode_scale: function(vtx){
-                    return 15. + vtx.get("gdeg") / 20.;
+                    return 10. + vtx.get("gdeg") / 20.;
                 },
             });
             // we want to change the color of edges of selected nodes
@@ -180,6 +189,7 @@ define([
 
               // gviz rendering loop
             app.views.gviz.enable().animate();
+            
         },
 
         // helper: add app attributes to global scope
@@ -196,6 +206,7 @@ define([
         */
         navigate_to_label: function(label){
             var app = this;
+            console.log("navigate_to_label", label)
             app.models.query.set('query', label);
             app.models.query.run_search();
         },
@@ -242,6 +253,7 @@ define([
                         edge.add_flag('faded');
                     }
                 });
+                app.views.gviz.update();
             }
         },
 
@@ -251,13 +263,23 @@ define([
          */
         search_loading: function(kwargs, state){
             var app = this;
+            
             // get the query
             var query = kwargs.query;
             // change the url
             app.router.navigate("q/"+query);
-            Cello.utils.piwikTrackCurrentUrl(); // force piwik (if any) to track the new 'page'
+            
+            // collapse current graph viz
+            if ( _.size(this.views)) {
+                app.views.gviz.collapse(200);
+            }
+
             //start waiting
             $("#loading-indicator").show(0);
+            
+            // force piwik (if any) to track the new 'page'
+            Cello.utils.piwikTrackCurrentUrl(); 
+            
         },
 
         /** when a search response arrive (in success)
@@ -268,36 +290,41 @@ define([
                 console.log("play:complete", 'args', args, 'state', state); 
                 app.response = response;    // juste pour le debug
             }
+            
+             // setup the views if needed
+            app.create_results_views();
+            
             //stop waiting
             $("#loading-indicator").hide(0);
 
             // reset clustering
             app.models.clustering.reset(response.results.clusters);
-            // setup the views if needed
-            app.create_results_views();
+           
 
             // parse graph
-            app.models.graph = new Cello.Graph(response.results.graph, {parse:true});
+            app.models.graph = new Cello.Graph(response.results.graph, {parse:true, silent:true});
 
             // apply layout 
             var coords = response.results.layout.coords;
             for (var i in coords){
-                app.models.graph.vs.get(i).set("coords", coords[i]);
+                app.models.graph.vs.get(i).set("coords", coords[i], {silent:true});
             }
 
             // set cluster colors 
-            _.map(app.models.graph.vs.select({}), function(model){
+            _.map(app.models.graph.vs.select({}), function(model, i, list ){
                 model.set('default_color', model.get('color'))
                 var cid = app.models.clustering.membership[model.id]
-                model.set('cl_color', app.models.clustering.cluster(cid[0]).color);
+                model.set('cl_color', app.models.clustering.cluster(cid[0]).color, {silent:true});
             });
+            
             // FIXME :
             // default color does not depend on visible panel
-            app.models.graph.vs.copy_attr('prox_color', 'color');
-
+            app.models.graph.vs.copy_attr('cl_color', 'color',{silent:true});
+            
+            // reset proxemy view
+            app.models.vertices.reset(app.models.graph.vs.models)
             // reset graph visualization
             app.views.gviz.set_graph(app.models.graph);
-            app.models.vertices.reset(app.models.graph.vs.models)
         },
 
         /** when the search failed
@@ -342,7 +369,7 @@ define([
 
             // initialise the app it self
             app.create_models();
-            
+                        
             ///// DEBUG: this add the app to global (guardian_app)
             app._add_to_global();
 
@@ -362,6 +389,8 @@ define([
             this.listenTo(app.models.cellist, 'play:complete', app.engine_play_completed);
             //when search failed
             this.listenTo(app.models.cellist, 'play:error', app.engine_play_error);
+
+           
 
             // Router
             var AppRouter = Backbone.Router.extend({

@@ -16,6 +16,8 @@ require.config({
     threejs_trackball: 'lib/three-TrackballControls',
     threejs_renderer: 'lib/three-HackedCanvasRenderer',
 
+    tween: 'lib/Tween',
+
     autocomplete: 'lib/backbone.autocomplete',
 
     moment:  'lib/moment.min',
