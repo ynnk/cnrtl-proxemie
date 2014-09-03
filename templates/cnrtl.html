@@ -8,13 +8,13 @@
 		<meta name="keywords" content="proxémie, ABASOURDIR">
 		<title>ABASOURDIR : Proxémie de ABASOURDIR</title>
 		<link type="image/x-icon" rel="icon" href="http://www.cnrtl.fr/favicon.ico">
-		<link type="text/css" rel="stylesheet" media="all" href="../../static/cnrtl_files/stylev24.css">
+		<link type="text/css" rel="stylesheet" media="all" href="{{url_for('static', filename='./')}}cnrtl_files/stylev24.css">
 		<link type="application/opensearchdescription+xml" rel="search" title="Portail Lexical - CNRTL" href="http://www.cnrtl.fr/portail/opensearch.xml">
 	  <link rel="alternate" type="application/rss+xml" href="http://www.cnrtl.fr/portail/rssmotdujour.php">
-		<link type="text/css" rel="stylesheet" media="all" href="../../static/cnrtl_files/portailv24.css">
-		<script type="text/javascript" src="../../static/cnrtl_files/overlib.js"></script><style type="text/css"></style><style id="stylish-1" class="stylish" type="text/css">@namespace url(http://www.w3.org/1999/xhtml);
+		<link type="text/css" rel="stylesheet" media="all" href="{{url_for('static', filename='./')}}cnrtl_files/portailv24.css">
+		<script type="text/javascript" src="{{url_for('static', filename='./')}}cnrtl_files/overlib.js"></script><style type="text/css"></style><style id="stylish-1" class="stylish" type="text/css">@namespace url(http://www.w3.org/1999/xhtml);
 @namespace svg url(http://www.w3.org/2000/svg);</style>
-		<script type="text/javascript" src="../../static/cnrtl_files/utilitiesv25.js"></script>
+		<script type="text/javascript" src="{{url_for('static', filename='./')}}cnrtl_files/utilitiesv25.js"></script>
 	</head>
 	<body onload="initPortail();">
 		<div id="wrap">
@@ -24,32 +24,32 @@
 					<area shape="rect" coords="780,35,825,80" href="http://www.cnrs.fr/" alt="Site du CNRS">
 					<area shape="rect" coords="830,35,890,80" href="http://www.atilf.fr/" alt="Site de l&#39;ATILF">
 				</map>
-				<img src="../../static/cnrtl_files/bandeau.jpg" alt="" usemap="#Map">
+				<img src="{{url_for('static', filename='./')}}cnrtl_files/bandeau.jpg" alt="" usemap="#Map">
 			</div>
 			<div id="nav">
 				<ul>
 					<li class="sep">&nbsp;</li>
-					<li><a href="http://www.cnrtl.fr/"><img src="../../static/cnrtl_files/PointR.jpg" alt="">Accueil</a></li>
+					<li><a href="http://www.cnrtl.fr/"><img src="{{url_for('static', filename='./')}}cnrtl_files/PointR.jpg" alt="">Accueil</a></li>
 					<li class="sep current_left">&nbsp;</li>
-					<li class="current"><a href="http://www.cnrtl.fr/portail/"><img src="../../static/cnrtl_files/PointR.jpg" alt="">Portail lexical</a></li>
+					<li class="current"><a href="http://www.cnrtl.fr/portail/"><img src="{{url_for('static', filename='./')}}cnrtl_files/PointR.jpg" alt="">Portail lexical</a></li>
 					<li class="sep current_right">&nbsp;</li>
-					<li><a href="http://www.cnrtl.fr/corpus/"><img src="../../static/cnrtl_files/PointR.jpg" alt="">Corpus</a></li>
+					<li><a href="http://www.cnrtl.fr/corpus/"><img src="{{url_for('static', filename='./')}}cnrtl_files/PointR.jpg" alt="">Corpus</a></li>
 					<li class="sep">&nbsp;</li>
-					<li><a href="http://www.cnrtl.fr/lexiques/"><img src="../../static/cnrtl_files/PointR.jpg" alt="">Lexiques</a></li>
+					<li><a href="http://www.cnrtl.fr/lexiques/"><img src="{{url_for('static', filename='./')}}cnrtl_files/PointR.jpg" alt="">Lexiques</a></li>
 					<li class="sep">&nbsp;</li>
-					<li><a href="http://www.cnrtl.fr/dictionnaires/"><img src="../../static/cnrtl_files/PointR.jpg" alt="">Dictionnaires</a></li>
+					<li><a href="http://www.cnrtl.fr/dictionnaires/"><img src="{{url_for('static', filename='./')}}cnrtl_files/PointR.jpg" alt="">Dictionnaires</a></li>
 					<li class="sep">&nbsp;</li>
-					<li><a href="http://www.cnrtl.fr/metalexicographie/"><img src="../../static/cnrtl_files/PointR.jpg" alt="">Métalexicographie</a></li>
+					<li><a href="http://www.cnrtl.fr/metalexicographie/"><img src="{{url_for('static', filename='./')}}cnrtl_files/PointR.jpg" alt="">Métalexicographie</a></li>
 					<li class="sep">&nbsp;</li>
-					<li><a href="http://www.cnrtl.fr/outils/"><img src="../../static/cnrtl_files/PointR.jpg" alt="">Outils</a></li>
+					<li><a href="http://www.cnrtl.fr/outils/"><img src="{{url_for('static', filename='./')}}cnrtl_files/PointR.jpg" alt="">Outils</a></li>
 					<li class="sep">&nbsp;</li>
-					<li><a href="mailto:contact@cnrtl.fr?subject=CNRTL"><img src="../../static/cnrtl_files/PointR.jpg" alt="">Contact</a></li>
+					<li><a href="mailto:contact@cnrtl.fr?subject=CNRTL"><img src="{{url_for('static', filename='./')}}cnrtl_files/PointR.jpg" alt="">Contact</a></li>
 					<li class="sep">&nbsp;</li>
 				</ul>
 			</div>		
 			<div id="main_content">
 <div><ul class="tab_box"><li><a href="http://www.cnrtl.fr/morphologie/" onclick="return sendRequest(0,&#39;/morphologie/&#39;);">Morphologie</a></li><li><a href="http://www.cnrtl.fr/definition/" onclick="return sendRequest(0,&#39;/definition/&#39;);">Lexicographie</a></li><li><a href="http://www.cnrtl.fr/etymologie/" onclick="return sendRequest(0,&#39;/etymologie/&#39;);">Etymologie</a></li><li><a href="http://www.cnrtl.fr/synonymie/" onclick="return sendRequest(0,&#39;/synonymie/&#39;);">Synonymie</a></li><li><a href="http://www.cnrtl.fr/antonymie/" onclick="return sendRequest(0,&#39;/antonymie/&#39;);">Antonymie</a></li><li><a class="active" href="http://www.cnrtl.fr/proxemie/" onclick="return sendRequest(0,&#39;/proxemie/&#39;);">Proxémie</a></li><li><a href="http://www.cnrtl.fr/concordance/" onclick="return sendRequest(0,&#39;/concordance/&#39;);">Concordance</a></li><li><a href="http://www.cnrtl.fr/aide/" onclick="return sendRequest(0,&#39;/aide/&#39;);">Aide</a></li></ul></div><div id="content"><table width="100%" border="0" cellpadding="0" cellspacing="4"><tbody><tr valign="top"><td id="menubox"><table class="plugin_menu" cellpadding="0" cellspacing="0"><tbody><tr class="plugin_on" onclick="return sendRequest(0,&#39;/proxemie/&#39;);">
-<td class="plugin_image"><img src="../../static/cnrtl_files/prox.jpg" height="44" width="36" alt=""></td><td><h1>Prox</h1><h2>IRIT</h2></td>
+<td class="plugin_image"><img src="{{url_for('static', filename='./')}}cnrtl_files/prox.jpg" height="44" width="36" alt=""></td><td><h1>Prox</h1><h2>IRIT</h2></td>
 </tr>
 </tbody></table></td><td width="100%">			<div id="optionBox">
 				<form name="optionBoxForm" action="">
@@ -243,10 +243,10 @@
 				</form>
 			</div>
 			<div class="box bottombox">
-				<div class="font_change" onclick="location.href=&#39;/proxemie/&#39;"><img src="../../static/cnrtl_files/home.gif" width="24" height="24" border="0" alt="" title="Retour à la liste des formes"></div>
-				<div class="font_change" onclick="printPage();"><img src="../../static/cnrtl_files/printer.jpg" width="25" height="25" border="0" alt="" title="Imprimer la page"></div>
-				<div class="font_change" onclick="changeFontSize(+0.1);"><img src="../../static/cnrtl_files/font-inc.gif" width="25" height="25" border="0" alt="" title="Augmenter la taille du texte"></div>
-				<div class="font_change" onclick="changeFontSize(-0.1);"><img src="../../static/cnrtl_files/font-dec.gif" width="25" height="25" border="0" alt="" title="Diminuer la taille du texte"></div>
+				<div class="font_change" onclick="location.href=&#39;/proxemie/&#39;"><img src="{{url_for('static', filename='./')}}cnrtl_files/home.gif" width="24" height="24" border="0" alt="" title="Retour à la liste des formes"></div>
+				<div class="font_change" onclick="printPage();"><img src="{{url_for('static', filename='./')}}cnrtl_files/printer.jpg" width="25" height="25" border="0" alt="" title="Imprimer la page"></div>
+				<div class="font_change" onclick="changeFontSize(+0.1);"><img src="{{url_for('static', filename='./')}}cnrtl_files/font-inc.gif" width="25" height="25" border="0" alt="" title="Augmenter la taille du texte"></div>
+				<div class="font_change" onclick="changeFontSize(-0.1);"><img src="{{url_for('static', filename='./')}}cnrtl_files/font-dec.gif" width="25" height="25" border="0" alt="" title="Diminuer la taille du texte"></div>
 				<form id="reqform" action="http://www.cnrtl.fr/proxemie/{{query}}#" accept-charset="UTF-8" onsubmit="return sendRequest(2,&#39;/proxemie/&#39;);">
 					<table border="0" cellpadding="0" cellspacing="1">
 						<tbody><tr>
@@ -287,21 +287,21 @@
 			<div id="footer">
 				<div id="footerleft">
 					<a href="http://www.lorraine.pref.gouv.fr/index.php?headingid=112">
-						<img src="../../static/cnrtl_files/Logo_Feder_Lorraine_h50.jpg" border="0" alt="">
+						<img src="{{url_for('static', filename='./')}}cnrtl_files/Logo_Feder_Lorraine_h50.jpg" border="0" alt="">
 					</a>
 					<a href="http://www.huma-num.fr/">
-						<img src="../../static/cnrtl_files/logohumanum.png" align="top" border="0" height="50" alt="">
+						<img src="{{url_for('static', filename='./')}}cnrtl_files/logohumanum.png" align="top" border="0" height="50" alt="">
 					</a>
 					<a href="http://www.msh-lorraine.fr/">
-						<img src="../../static/cnrtl_files/msh.jpg" align="top" border="0" alt="">
+						<img src="{{url_for('static', filename='./')}}cnrtl_files/msh.jpg" align="top" border="0" alt="">
 					</a>
 				</div>
 				<div id="footerright">
 					<a href="http://validator.w3.org/check?uri=referer">
-						<img src="../../static/cnrtl_files/xhtml10.png" border="0" alt="Valid XHTML 1.0 Strict">
+						<img src="{{url_for('static', filename='./')}}cnrtl_files/xhtml10.png" border="0" alt="Valid XHTML 1.0 Strict">
 					</a>
 					<a href="http://jigsaw.w3.org/css-validator/">
-						<img src="../../static/cnrtl_files/vcss.png" border="0" alt="Valid Cascading Style Sheet">
+						<img src="{{url_for('static', filename='./')}}cnrtl_files/vcss.png" border="0" alt="Valid Cascading Style Sheet">
 					</a>
 				</div>
 				<p>
