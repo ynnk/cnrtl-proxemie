@@ -5,8 +5,7 @@ import os
 import sys
 import json
 import logging
-from flask import Flask
-from flask import render_template, url_for, abort
+from flask import Flask, render_template, url_for, abort
 
 import igraph
 
