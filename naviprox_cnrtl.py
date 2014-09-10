@@ -252,7 +252,11 @@ def app_graph(gname, query=None):
 ## build other entry point of the app
 @app.route("/cnrtl/")
 @app.route("/cnrtl/<string:gname>/<string:query>")
+@app.route("/proxemie/<string:query>/<string:gname>")
+@app.route("/proxemie/<string:query>")
 def app_cnrtl(gname='verb', query='causer'):
+    if gname in ('verb','verbe'):
+        g = 'verb'
     root_url = "%s%s/" % (url_for("index"), gname)
     return render_template('cnrtl.html', query=query, url="%sq/%s" % (root_url, query))
 

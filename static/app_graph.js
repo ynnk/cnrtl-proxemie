@@ -59,7 +59,7 @@ define([
             // --- Graph model ---
             // Graph View model
             app.models.graph = {} //warn: it is updated when result arive
-            app.models.vizmodel = new Cello.gviz.VizModel({});
+            app.models.vizmodel = new Cello.gviz.VizModel({graph: app.models.graph});
 
             // --- Clustering model ---
             // Clustering model and view
@@ -94,9 +94,14 @@ define([
                 
                 /* Click sur le label, */
                 clicked: function(event){
-                    event.preventDefault();
-                    event.stopPropagation();
-                    app.navigate_to_label(this.model.label);
+                    /* navigate */
+                    //event.preventDefault();
+                    //event.stopPropagation();
+                    //app.navigate_to_label(this.model.label);
+                    /* select vertex */
+                    var vertices = app.models.graph.select_vertices({label:this.model.label});
+                    var vid = vertices[0].id
+                    app.models.vizmodel.set_selected(vid);
                 },
                 
                 //RMQ: this computation may also be donne directly in the template
@@ -128,19 +133,30 @@ define([
             });
 
             // vertex sorted by proxemy
-            var ListItemView = Cello.ui.list.ListItemView.extend({
+            var ListItemView = Cello.ui.doclist.DocItemView.extend({
                 template: _.template($("#ListLabel").html()),
                 events:{
                     "click": "clicked",
                     "mouseover": "mouseover",
                     "mouseout": "mouseout",
+                    "addflag": "some_flags_changed",
+                    "rmflag": "some_flags_changed",
+                },
+                
+                 initialize: function(options){
+                    // super call 
+                    ListItemView.__super__.initialize.apply(this);
+                    // override
+                    this.listenTo(this.model, "rmflag", this.flags_changed);
+                    this.listenTo(this.model, "addflag", this.some_flags_changed);
                 },
                 
                 /* Click sur le label, */
                 clicked: function(event){
-                    event.preventDefault();
-                    event.stopPropagation();
-                    app.navigate_to_label(this.model.get("label"));
+                    //event.preventDefault();
+                    //event.stopPropagation();
+                    //app.navigate_to_label(this.model.get("label"));
+                     app.models.vizmodel.set_selected(this.model.id);
                 },
                 
                 mouseover: function(){
@@ -154,6 +170,11 @@ define([
                     app.models.vizmodel.set_intersected(null);
                     app.views.gviz.render();
                 },
+                some_flags_changed: function(){
+                    this.flags_changed();
+                    this.scroll_to();
+                },
+                
             });
 
             app.views.proxemy = new Cello.ui.list.ListView({
@@ -175,7 +196,7 @@ define([
                 el: "#vz_threejs_main",
                 model: app.models.vizmodel,
                 edges_color: 0x79878A,
-                background_color: 0xF0F0F0,
+                background_color: 0xFEFEFE,
                 text_scale : 0.12,
                 wnode_scale: function(vtx){
                     return 10. + vtx.get("gdeg") / 20.;
@@ -184,7 +205,12 @@ define([
             // we want to change the color of edges of selected nodes
             app.models.vizmodel.on('change:selected', function(){
                 //console.log('vizmodel change:selected', arguments);
+                var selected = app.models.vizmodel.get('selected')
+                var last_selected = app.models.vizmodel.get('last_selected')
+                
                 Cello.gviz.ThreeVizHelpers.edges_colors_on_node_selected(app.views.gviz);
+                
+              
             });
 
               // gviz rendering loop
@@ -299,7 +325,6 @@ define([
 
             // reset clustering
             app.models.clustering.reset(response.results.clusters);
-           
 
             // parse graph
             app.models.graph = new Cello.Graph(response.results.graph, {parse:true, silent:true});
