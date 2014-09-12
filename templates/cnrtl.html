@@ -6,7 +6,7 @@
 		
 		<meta name="robots" content="index,follow">
 		<meta name="keywords" content="proxémie, ABASOURDIR">
-		<title>ABASOURDIR : Proxémie de ABASOURDIR</title>
+		<title>{{query.upper()}} : Proxémie de {{query.upper()}}</title>
 		<link type="image/x-icon" rel="icon" href="http://www.cnrtl.fr/favicon.ico">
 		<link type="text/css" rel="stylesheet" media="all" href="{{url_for('static', filename='./')}}cnrtl_files/stylev24.css">
 		<link type="application/opensearchdescription+xml" rel="search" title="Portail Lexical - CNRTL" href="http://www.cnrtl.fr/portail/opensearch.xml">
@@ -247,7 +247,7 @@
 				<div class="font_change" onclick="printPage();"><img src="{{url_for('static', filename='./')}}cnrtl_files/printer.jpg" width="25" height="25" border="0" alt="" title="Imprimer la page"></div>
 				<div class="font_change" onclick="changeFontSize(+0.1);"><img src="{{url_for('static', filename='./')}}cnrtl_files/font-inc.gif" width="25" height="25" border="0" alt="" title="Augmenter la taille du texte"></div>
 				<div class="font_change" onclick="changeFontSize(-0.1);"><img src="{{url_for('static', filename='./')}}cnrtl_files/font-dec.gif" width="25" height="25" border="0" alt="" title="Diminuer la taille du texte"></div>
-				<form id="reqform" action="http://www.cnrtl.fr/proxemie/{{query}}#" accept-charset="UTF-8" onsubmit="return sendRequest(2,&#39;/proxemie/&#39;);">
+				<form id="reqform" action="http://www.cnrtl.fr/proxemie/{{query}}#" accept-charset="UTF-8" onsubmit="return sendRequest(2,&#39;{{url_for('app_cnrtl')}}&#39;);">
 					<table border="0" cellpadding="0" cellspacing="1">
 						<tbody><tr>
 							<td><h2>Entrez une forme</h2></td>
