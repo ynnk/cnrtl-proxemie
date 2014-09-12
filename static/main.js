@@ -33,9 +33,10 @@ require.config({
       // threejs not require compatible...
       'threejs': {
             exports: 'THREE',
+            //deps: ['threejs_trackball', 'threejs_renderer'],
             init: function(THREE){
                     require([ 'threejs_trackball', 'threejs_renderer'])
-                }
+           }
         }
     }
 });
