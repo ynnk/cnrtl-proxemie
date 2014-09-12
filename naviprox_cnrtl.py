@@ -238,7 +238,6 @@ def index():
     return "<a href='www.kodexlab.com'>www.kodexlab.com</a>"
 
 # main entry HTML entry points
-@app.route("/graph/<string:gname>/<string:query>")
 @app.route("/graph/<string:gname>/q/<string:query>")
 def app_graph(gname="", query=None):
     root_url = "%sgraph/%s/" % (url_for("index"),gname)
