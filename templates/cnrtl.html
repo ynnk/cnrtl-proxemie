@@ -247,7 +247,7 @@
 				<div class="font_change" onclick="printPage();"><img src="{{url_for('static', filename='./')}}cnrtl_files/printer.jpg" width="25" height="25" border="0" alt="" title="Imprimer la page"></div>
 				<div class="font_change" onclick="changeFontSize(+0.1);"><img src="{{url_for('static', filename='./')}}cnrtl_files/font-inc.gif" width="25" height="25" border="0" alt="" title="Augmenter la taille du texte"></div>
 				<div class="font_change" onclick="changeFontSize(-0.1);"><img src="{{url_for('static', filename='./')}}cnrtl_files/font-dec.gif" width="25" height="25" border="0" alt="" title="Diminuer la taille du texte"></div>
-				<form id="reqform" action="http://www.cnrtl.fr/proxemie/{{query}}#" accept-charset="UTF-8" onsubmit="return sendRequest(2,&#39;/proxemie/&#39;);">
+				<form id="reqform" action="http://www.cnrtl.fr/proxemie/{{query}}#" accept-charset="UTF-8" onsubmit="return sendRequest(2,&#39;{{url_for('index')}}proxemie/&#39;);">
 					<table border="0" cellpadding="0" cellspacing="1">
 						<tbody><tr>
 							<td><h2>Entrez une forme</h2></td>
@@ -273,7 +273,7 @@
 					</tbody></table>
 				</form>
 			</div>
-<div id="vtoolbar"><ul><li id="vitemselected"><a href="http://www.cnrtl.fr/proxemie/{{query}}#" onclick="return sendRequest(5,&#39;/proxemie/{{query}}//0&#39;);"><span>{{query}}</span>, verbe</a></li></ul></div><div id="contentbox">	
+<div id="vtoolbar"><ul><li id="vitemselected"><a href="http://www.cnrtl.fr/proxemie/{{query}}#" onclick="return sendRequest(5,&#39;{{url_for('index')}}/proxemie/{{query}}//0&#39;);"><span>{{query}}</span>, verbe</a></li></ul></div><div id="contentbox">	
 
 
 <!-- old form 

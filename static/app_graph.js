@@ -95,16 +95,17 @@ define([
                 /* Click sur le label, */
                 clicked: function(event){
                     /* navigate */
-                    //event.preventDefault();
-                    //event.stopPropagation();
+                    event.preventDefault();
+                    event.stopPropagation();
                     //app.navigate_to_label(this.model.label);
                     /* select vertex */
+                    // 'this.model' is a label not a vertex !
                     var vertices = app.models.graph.select_vertices({label:this.model.label});
                     var vid = vertices[0].id
                     app.models.vizmodel.set_selected(vid);
                 },
                 
-                //RMQ: this computation may also be donne directly in the template
+                //RMQ: this computation may also be done directly in the template
                 before_render: function(data){
                     //console.log(data.label, data.score)
                     data.size = 9 + data.score / 17.;
@@ -133,7 +134,7 @@ define([
             });
 
             // vertex sorted by proxemy
-            var ListItemView = Cello.ui.doclist.DocItemView.extend({
+            var ItemView = Cello.ui.doclist.DocItemView.extend({
                 template: _.template($("#ListLabel").html()),
                 events:{
                     "click": "clicked",
@@ -145,7 +146,7 @@ define([
                 
                  initialize: function(options){
                     // super call 
-                    ListItemView.__super__.initialize.apply(this);
+                    ItemView.__super__.initialize.apply(this);
                     // override
                     this.listenTo(this.model, "rmflag", this.flags_changed);
                     this.listenTo(this.model, "addflag", this.some_flags_changed);
@@ -153,9 +154,6 @@ define([
                 
                 /* Click sur le label, */
                 clicked: function(event){
-                    //event.preventDefault();
-                    //event.stopPropagation();
-                    //app.navigate_to_label(this.model.get("label"));
                      app.models.vizmodel.set_selected(this.model.id);
                 },
                 
@@ -179,7 +177,7 @@ define([
 
             app.views.proxemy = new Cello.ui.list.ListView({
                 model : app.models.vertices,
-                ItemView: ListItemView,
+                ItemView: ItemView,
                 el: $("#proxemy_items"),
             }).render();
             

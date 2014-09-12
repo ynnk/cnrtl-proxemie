@@ -215,12 +215,6 @@ graphs = {
     },
 }
 
-# index page
-@app.route("/")
-def index():
-    #TODO: better index page ?
-    return "<a href='www.kodexlab.com'>www.kodexlab.com</a>"
-
 ## build and register the CELLO APIs
 for gname, config in graphs.iteritems():
     # create a copy of the config
@@ -234,15 +228,20 @@ for gname, config in graphs.iteritems():
         graph[key] = value
     # create the api and register it
     api = naviprox_api(graph, engine_builder=config.get("engine_builder", None))
-    app.register_blueprint(api, url_prefix="/%s/api" % gname)
+    app.register_blueprint(api, url_prefix="/graph/%s/api" % gname)
 
+
+# index page
+@app.route("/")
+def index():
+    #TODO: better index page ?
+    return "<a href='www.kodexlab.com'>www.kodexlab.com</a>"
 
 # main entry HTML entry points
-@app.route("/<string:gname>/")
-@app.route("/<string:gname>/<string:query>")
-@app.route("/<string:gname>/q/<string:query>")
-def app_graph(gname, query=None):
-    root_url = "%s%s/" % (url_for("index"), gname)
+@app.route("/graph/<string:gname>/<string:query>")
+@app.route("/graph/<string:gname>/q/<string:query>")
+def app_graph(gname="", query=None):
+    root_url = "%sgraph/%s/" % (url_for("index"),gname)
     #check gname is a graph else 404 !
     if gname not in graphs:
         abort(404)
@@ -250,15 +249,16 @@ def app_graph(gname, query=None):
 
 
 ## build other entry point of the app
-@app.route("/cnrtl/")
-@app.route("/cnrtl/<string:gname>/<string:query>")
 @app.route("/proxemie/<string:query>/<string:gname>")
 @app.route("/proxemie/<string:query>")
 def app_cnrtl(gname='verb', query='causer'):
     if gname in ('verb','verbe'):
-        g = 'verb'
-    root_url = "%s%s/" % (url_for("index"), gname)
-    return render_template('cnrtl.html', query=query, url="%sq/%s" % (root_url, query))
+        gname = 'verb'
+    #url="%sq/%s" % (root_url, query)
+    iframe = url_for("app_graph", gname=gname, query=query)
+    #raise Exception('boo')
+    #root_url = "%s%s/" % (url_for("index"), gname)
+    return render_template('cnrtl.html', query=query, url = iframe )
 
 
 def main():
