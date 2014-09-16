@@ -5,7 +5,7 @@ import os
 import sys
 import json
 import logging
-from flask import Flask, render_template, url_for, abort
+from flask import Flask, render_template, url_for, abort, jsonify
 
 import igraph
 
@@ -177,23 +177,14 @@ def naviprox_api(graph, engine_builder=None, *args, **kwargs):
     api.add_output("clusters", export_clustering)
     return api
 
-########
-## Build the app
-app = Flask(__name__)
-app.debug = True
 
-logger = get_basic_logger(logging.DEBUG)
-
-
-try:
-    BASEDIR = os.environ["PTDPATH"]
-except KeyError:
-    BASEDIR = "./"
+BASEDIR = os.environ.get("PTDPATH", "./")
 
 # descrption des graphes
-graphs = {
+graph_config = {
     "verb": {
         "path": os.path.join(BASEDIR, "Graphs/dicosyn/dicosyn/V.dicosyn.pickle"),
+        "label_key" : "label",
         "vertices_color": {'casser':(200,255,0),
                           'fixer':  (255,150,0),
                           'fuir': (50,50,255),
@@ -201,6 +192,7 @@ graphs = {
     },
     "noun": {
         "path": os.path.join(BASEDIR, "Graphs/dicosyn/dicosyn/N.dicosyn.pickle"),
+        "label_key" : "label",
         "vertices_color": {'ruine': (255,150,0),
                           'aspect': (200,255,0),
                           'association': (50,50,255),
@@ -208,6 +200,7 @@ graphs = {
     },
     "adj": {
         "path": os.path.join(BASEDIR, "Graphs/dicosyn/dicosyn/A.dicosyn.pickle"),
+        "label_key" : "label",
         "vertices_color": {'fort': (255,150,0),
                           'bon': (200,255,0),
                           'faible': (50,50,255),
@@ -215,8 +208,17 @@ graphs = {
     },
 }
 
+graphs = {}
+
+########
+## Build the app
+app = Flask(__name__, static_url_path='')
+app.debug = True
+
+logger = get_basic_logger(logging.DEBUG)
+
 ## build and register the CELLO APIs
-for gname, config in graphs.iteritems():
+for gname, config in graph_config.iteritems():
     # create a copy of the config
     _config = {}
     _config.update(config)
@@ -226,10 +228,10 @@ for gname, config in graphs.iteritems():
     # copy config into graph attr
     for key, value in _config.iteritems():
         graph[key] = value
+    graphs[gname] = graph
     # create the api and register it
     api = naviprox_api(graph, engine_builder=config.get("engine_builder", None))
-    app.register_blueprint(api, url_prefix="/graph/%s/api" % gname)
-
+    app.register_blueprint(api, url_prefix="/graph/%s/api" % (gname) )
 
 # index page
 @app.route("/")
@@ -248,9 +250,10 @@ def app_graph(gname="", query=None):
 
 
 ## build other entry point of the app
+@app.route("/proxemie/")
 @app.route("/proxemie/<string:query>/<string:gname>")
 @app.route("/proxemie/<string:query>")
-def app_cnrtl(gname='verb', query='causer'):
+def app_cnrtl(query='causer', gname='verb'):
     if gname in ('verb','verbe'):
         gname = 'verb'
     #url="%sq/%s" % (root_url, query)
@@ -259,7 +262,32 @@ def app_cnrtl(gname='verb', query='causer'):
     #root_url = "%s%s/" % (url_for("index"), gname)
     return render_template('cnrtl.html', query=query, url = iframe )
 
-
+@app.route("/liste")
+@app.route("/liste/<string:gname>")
+@app.route("/liste/<string:gname>.<string:format>")
+def vertices(gname=None, format='html'):
+    graph = graphs.get(gname, None)
+    
+    if graph:
+        config = graph_config[gname]
+        labels = graph.vs[config['label_key'] ]
+        labels =  [ l.encode('utf8') for l in labels] 
+        if format == 'html':
+            label = lambda l : "<a href='%s'>%s</a><br/>" % (url_for('app_cnrtl', gname=gname, query=l), l)
+            labels = [ label(l) for l in labels]
+            return "\n".join(labels)
+        elif format == 'json':
+            return  jsonify({ gname : labels })
+        else :
+            return "wrong format %s" % format
+            
+    elif gname == None:
+        label = lambda l : "<a href='%s/%s.html'>%s</a><br/>" % (url_for('vertices'), l, l)
+        return "\n".join( label(name) for name in graphs.keys() )
+        
+    else :
+        return "no such graph %s" % (gname)
+        
 def main():
     ## run the app
     app.run("0.0.0.0")
