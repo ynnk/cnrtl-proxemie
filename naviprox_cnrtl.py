@@ -9,7 +9,6 @@ from flask import Flask, render_template, url_for, abort, jsonify
 
 import igraph
 
-
 from reliure.engine import Engine
 from reliure.types import Text, Numeric, Datetime
 from reliure.pipeline import Composable, Optionable
@@ -17,17 +16,15 @@ from reliure.options import ValueOption
 from reliure.web import EngineView, ReliureAPI
 from reliure.utils.log import get_basic_logger
 
-
 from cello.export import export_docs
 from cello.graphs import export_graph, IN, OUT, ALL
 from cello.layout import export_layout
 from cello.clustering import export_clustering
-
-
-#TODO: should mv in cello
-#TODO: should add test
 from cello.graphs.extraction import VtxMatch
 import cello.graphs.prox as prox
+
+
+# === Colors component ===
 
 class ProxColors(Optionable):
     """ Add color to each vertices of a subgraph.
@@ -91,6 +88,7 @@ class ProxColors(Optionable):
         subgraph.vs[self.out_attr] = colors
         return subgraph
 
+# === Engine builder ===
 
 def lexical_graph_engine(graph):
     """ Return a default engine over a lexical graph
@@ -159,29 +157,15 @@ def lexical_graph_engine(graph):
     return engine
 
 
-def naviprox_api(graph):
-    """ Build the Cello/Naviprox API over a graph
-    """
-    # use default engine in cello_guardian.py
-    if engine_builder is None:
-        engine_builder = lexical_graph_engine
-        
-    engine = engine_builder(graph, *args, **kwargs)
+# === App ===
 
-    view = EngineView(engine)
-    view.set_input_type(Text())
-    view.add_output("query", lambda x : x.encode('utf8'))
-    view.add_output("graph", export_graph)
-    view.add_output("layout", export_layout)
-    view.add_output("clusters", export_clustering)
-
-    
-    return api
-
+app = Flask(__name__, static_url_path='')
+app.debug = False
 
 BASEDIR = os.environ.get("PTDPATH", "./")
+logger = get_basic_logger(logging.DEBUG)
+graphs = set([])
 
-# descrption des graphes
 graph_config = {
     "verb": {
         "path": os.path.join(BASEDIR, "Graphs/dicosyn/dicosyn/V.dicosyn.pickle"),
@@ -209,29 +193,11 @@ graph_config = {
     },
 }
 
-graphs = {}
-
-########
-## Build the app
-app = Flask(__name__, static_url_path='')
-app.debug = True
-
-logger = get_basic_logger(logging.DEBUG)
-
-## build and register the CELLO APIs
 for gname, config in graph_config.iteritems():
-    # create a copy of the config
-    _config = {}
-    _config.update(config)
-    # load the graph
-    graph_path = _config.pop("path")
-    graph = igraph.read(graph_path)
-    # copy config into graph attr
-    for key, value in _config.iteritems():
-        graph[key] = value
-        
-    graphs[gname] = graph
 
+    graph = igraph.read(config.pop("path"))
+    graph['vertices_color'] = config.pop("vertices_color")
+    graphs.add(gname)
     engine = lexical_graph_engine(graph)
 
     view = EngineView(engine)
@@ -246,7 +212,11 @@ for gname, config in graph_config.iteritems():
 
     app.register_blueprint(api,  url_prefix="/graph/%s" % (gname) )
 
-# index page
+
+
+
+# === Routes ===
+
 @app.route("/")
 def index():
     #TODO: better index page ?
@@ -262,7 +232,6 @@ def app_graph(gname="", query=None):
     return render_template('index_graph.html', gname=gname, root_url=root_url)
 
 
-## build other entry point of the app
 @app.route("/proxemie/")
 @app.route("/proxemie/<string:query>/<string:gname>")
 @app.route("/proxemie/<string:query>")
@@ -300,6 +269,8 @@ def vertices(gname=None, format='html'):
         
     else :
         return "no such graph %s" % (gname)
+
+# === Run ===
         
 def main():
     ## run the app

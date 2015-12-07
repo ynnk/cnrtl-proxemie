@@ -1,0 +1,26 @@
+<!-- Default docItemView template
+
+ Note: by default in cello.Doc there is only a docnum, so only docnum printed.
+ This should be overiden !
+-->
+<script id="DocItemView_template" type="text/template">
+<div class='docitem'>
+    <%= docnum %>
+</div>
+</script>
+
+
+<!-- Default DocPastilleItemView template
+
+Special elements that should be present :
+ * 'div.pastille' : will contains the document's clusters pastilles
+
+ Note: by default in cello.Doc there is only a docnum, so only docnum printed.
+ This should be overiden !
+-->
+<script id="DocPastilleItemView_template" type="text/template">
+<div class='docitem'>
+    <%= docnum %>
+    <div class="pastilles"></div>
+</div>
+</script>

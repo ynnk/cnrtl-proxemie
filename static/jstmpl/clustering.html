@@ -1,0 +1,13 @@
+<!--
+ special classes :
+ * .sortby_items: will contains the list of Item
+-->
+<script id="sortby_list" type="text/template">
+    <div class="choice btn-group sortby_items"></div>
+</script>
+
+<!-- Warning: tagName and tagClasses are important for this view -->
+<script id="cluter_label_item" type="text/template">
+    <a class='btn btn-link' style='font-size:<%=model.get('size')%>px' > <%= model.get('label') %></a>
+</script>
+

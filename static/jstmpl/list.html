@@ -1,0 +1,28 @@
+<!--
+ special classes :
+ * .sortby_items: will contains the list of Item
+-->
+<script id="SortCtrlView_template" type="text/template">
+    <div class="choice btn-group sortby_items"></div>
+</script>
+
+<!-- Warning: tagName and tagClasses are important for this view -->
+<script id="SortByItem_template" type="text/template">
+    <span class="<%= active ? "glyphicon " : "" %><%= active ? (reverse ? "glyphicon-chevron-down" : "glyphicon-chevron-up" ): ""%>" ></span>
+    <%= sort_by %>
+</script>
+
+<!--
+ special classes :
+ * .search_input: input used for autocompletion
+-->
+<script id="ListSearch_template" type="text/template">
+    <form class="form-inline" role="form">
+        <div class="form-group">
+          <label class="sr-only" for="searchDocListInput"><%= label %></label>
+          <input type='text' id="searchDocListInput" class="form-control input-sm search_input" placeholder="<%= placeholder %>" required="" />
+        </div>
+    </form>
+</script>
+
+

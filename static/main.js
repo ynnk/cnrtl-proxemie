@@ -32,9 +32,11 @@ require.config({
       'bootstrap': {deps: ["jquery"]},
       'threejs': {
             exports: 'THREE',
-        },
-      'threejs_trackball': {deps: ["threejs"]},
-      // threejs not require compatible...
+            //deps: ['threejs_trackball', 'threejs_renderer'],
+            init: function(THREE){
+                    require([ 'threejs_trackball', 'threejs_renderer'])
+           }
+        }
     }
 });
 

@@ -49,7 +49,7 @@ define([
             //NOTE: the url is from root, issue comming if "api" entry point is not at root
 
             // --- Query model ---
-            app.models.query = new Cello.QueryModel({
+            app.models.query = new Cello.ui.QueryModel({
                 cellist: app.models.cellist,
             });
 
@@ -365,7 +365,9 @@ define([
             if(!_.isEmpty(response)){
                 // There is a cello response
                 // so we can get the error messages
-                text = response.meta.errors.join("<br />");
+                if (response.meta.errors.length )
+                    if (response.meta.details[0].details[0].name == 'ProxSearch')
+                        text = "La proxémie pour le terme '"+ app.models.query.get('query')  +"' n’existe pas";
             } else {
                 // HTTP error, just map the anwser
                 text = $(xhr.responseText);
