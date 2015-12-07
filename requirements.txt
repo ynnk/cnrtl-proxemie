@@ -1,5 +1,6 @@
 gunicorn
 flask
 requests
+reliure
 git+ssh://git@git.kodexlab.com/kodexlab/cello.git
-git+ssh://git@git.kodexlab.com/kodexlab/reliure.git
+
