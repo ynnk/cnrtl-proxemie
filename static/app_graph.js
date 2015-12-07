@@ -49,10 +49,7 @@ define([
             //NOTE: the url is from root, issue comming if "api" entry point is not at root
 
             // --- Query model ---
-            //RMQ why in Cello.ui ?
-            //RMQ: ou alors est-ce qu'il y a besoin de ce model ?
-            // est-ce que l'engine ne peut pas géré cette un "query"
-            app.models.query = new Cello.ui.QueryModel({
+            app.models.query = new Cello.QueryModel({
                 cellist: app.models.cellist,
             });
 

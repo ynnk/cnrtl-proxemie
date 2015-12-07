@@ -9,16 +9,15 @@ from flask import Flask, render_template, url_for, abort, jsonify
 
 import igraph
 
-from cello.types import Text, Numeric, Datetime
-from cello.utils.web import CelloFlaskView
 
-from cello.engine import Engine
+from reliure.engine import Engine
+from reliure.types import Text, Numeric, Datetime
+from reliure.pipeline import Composable, Optionable
+from reliure.options import ValueOption
+from reliure.web import EngineView, ReliureAPI
+from reliure.utils.log import get_basic_logger
 
-from cello.pipeline import Composable, Optionable
-from cello.options import ValueOption
-from cello.utils import urllib2_json_urlopen, urllib2_setup_proxy
 
-from cello.utils.log import get_basic_logger
 from cello.export import export_docs
 from cello.graphs import export_graph, IN, OUT, ALL
 from cello.layout import export_layout
@@ -160,21 +159,23 @@ def lexical_graph_engine(graph):
     return engine
 
 
-def naviprox_api(graph, engine_builder=None, *args, **kwargs):
+def naviprox_api(graph):
     """ Build the Cello/Naviprox API over a graph
     """
     # use default engine in cello_guardian.py
     if engine_builder is None:
         engine_builder = lexical_graph_engine
+        
     engine = engine_builder(graph, *args, **kwargs)
 
-    # build the API from this engine
-    api = CelloFlaskView(engine)
-    api.set_input_type(Text())
-    api.add_output("query", lambda x : x.encode('utf8'))
-    api.add_output("graph", export_graph)
-    api.add_output("layout", export_layout)
-    api.add_output("clusters", export_clustering)
+    view = EngineView(engine)
+    view.set_input_type(Text())
+    view.add_output("query", lambda x : x.encode('utf8'))
+    view.add_output("graph", export_graph)
+    view.add_output("layout", export_layout)
+    view.add_output("clusters", export_clustering)
+
+    
     return api
 
 
@@ -228,10 +229,22 @@ for gname, config in graph_config.iteritems():
     # copy config into graph attr
     for key, value in _config.iteritems():
         graph[key] = value
+        
     graphs[gname] = graph
-    # create the api and register it
-    api = naviprox_api(graph, engine_builder=config.get("engine_builder", None))
-    app.register_blueprint(api, url_prefix="/graph/%s/api" % (gname) )
+
+    engine = lexical_graph_engine(graph)
+
+    view = EngineView(engine)
+    view.set_input_type(Text())
+    view.add_output("query", lambda x : x.encode('utf8'))
+    view.add_output("graph", export_graph)
+    view.add_output("layout", export_layout)
+    view.add_output("clusters", export_clustering)
+
+    api = ReliureAPI(name=gname )
+    api.register_view(view,  url_prefix="api"  )
+
+    app.register_blueprint(api,  url_prefix="/graph/%s" % (gname) )
 
 # index page
 @app.route("/")
