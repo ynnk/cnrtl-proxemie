@@ -1,31 +1,9 @@
-#CELLO LibJS dep
-LIBJS_DIR=./cello_libjs
-LIBJS_ORIGIN=ssh://192.168.122.99/var-hdd/git/cello_libjs/
-LIBJS_VERSION=master
+.PHONY: install
 
-.PHONY: get_libjs link_libjs python_dep
-
-all_dep: get_libjs python_dep
-
-get_libjs:
-	rm -rf ${LIBJS_DIR}
-	git clone --no-checkout ${LIBJS_ORIGIN} ${LIBJS_DIR}
-	cd ${LIBJS_DIR} && git checkout -f ${LIBJS_VERSION}
-	cd ${LIBJS_DIR} && make build
-
-link_libjs:
-	rm -rf ${LIBJS_DIR}
-	ln -s  ../cello_libjs/ ${LIBJS_DIR}
-
-python_dep:
+install:
 	pip install -r requirements.txt
 
-## Force the re-install of cello
-cello_dep_force:
-	pip install -I `cat requirements.txt |grep git/cello`
-
-
-get_graphs:
+graphs:
 	mkdir -p Graphs/dicosyn/dicosyn/
 	scp 192.168.122.99://var-hdd/hubic_proxteam/Graphs/dicosyn/dicosyn/N.dicosyn.pickle Graphs/dicosyn/dicosyn/
 	scp 192.168.122.99://var-hdd/hubic_proxteam/Graphs/dicosyn/dicosyn/A.dicosyn.pickle Graphs/dicosyn/dicosyn/
