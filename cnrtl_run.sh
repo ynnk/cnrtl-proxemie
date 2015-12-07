@@ -1,9 +1,9 @@
 #!/bin/bash
-## Run CILLEX throw gunicorn
+## Run CNRTL throw gunicorn
 
 #set -x  #log all execed lin for debug
 set -e
-BASEDIR=/var/wwwapps/cnrtl/cello.cnrtl/
+BASEDIR=/var/wwwapps/cnrtl/
 APPMODULE=naviprox_cnrtl
 APPNAME=app
 
@@ -14,16 +14,16 @@ LOGLEVEL=debug
 
 # gunicorn config
 BIND=0.0.0.0:8042
-NUM_WORKERS=1
+NUM_WORKERS=3
 
 # user/group to run as
-USER=wapps
-GROUP=wapps
+USER=wwwapps
+GROUP=wwwapps
 
 ## start the app
 cd $BASEDIR
 # if  virtualenv is used 
-source ../bin/activate
+source ./venv/bin/activate
 
 
 #pre-start script
