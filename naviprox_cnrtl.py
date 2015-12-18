@@ -271,10 +271,11 @@ def vertices(gname=None, format='html'):
         return "no such graph %s" % (gname)
 
 # === Run ===
-        
 def main():
     ## run the app
-    app.run("0.0.0.0")
+    from flask.ext.runner import Runner
+    runner = Runner(app)
+    runner.run()
 
 if __name__ == '__main__':
     sys.exit(main())
