@@ -3,6 +3,7 @@
 // Require.js allows us to configure shortcut alias
 // There usage will become more apparent further along in the tutorial.
 require.config({
+  waitSeconds: 0,
   paths: {
     underscore: 'lib/underscore-min',
     jquery: 'lib/jquery-1.11.0.min',
