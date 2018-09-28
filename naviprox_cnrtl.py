@@ -206,7 +206,7 @@ for gname, config in graph_config.items():
 
     view = EngineView(engine)
     view.set_input_type(Text())
-    view.add_output("query", lambda x : x.encode('utf8'))
+    view.add_output("query", lambda x : x)
     view.add_output("graph", export_graph)
     view.add_output("layout", export_layout)
     view.add_output("clusters", export_clustering)
@@ -224,7 +224,7 @@ for gname, config in graph_config.items():
 @app.route("/")
 def index():
     #TODO: better index page ?
-    return "<a href='www.kodexlab.com'>www.kodexlab.com</a>"
+    return "ynnk"
 
 # main entry HTML entry points
 @app.route("/graph/<string:gname>/q/<string:query>")
