@@ -4,6 +4,7 @@ requests
 python-igraph
 numpy
 scipy
+sklearn
 
 reliure
 https://github.com/ynnk/cello/archive/master.zip

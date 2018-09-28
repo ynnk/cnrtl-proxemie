@@ -17,12 +17,12 @@ BIND=0.0.0.0:8042
 NUM_WORKERS=1
 
 # user/group to run as
-USER=wwwapps
-GROUP=wwwapps
+USER=yk
+GROUP=yk
 
 ## start the app
 cd $BASEDIR
-# if  virtualenv is used 
+#  virtualenv 
 source ./venv3/bin/activate
 
 

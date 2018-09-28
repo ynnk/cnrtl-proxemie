@@ -163,7 +163,7 @@ def lexical_graph_engine(graph):
 app = Flask(__name__, static_url_path='')
 app.debug = False
 
-BASEDIR = os.environ.get("PTDPATH", "./")
+BASEDIR = "./"
 logger = get_basic_logger(logging.DEBUG)
 graphs = set([])
 
