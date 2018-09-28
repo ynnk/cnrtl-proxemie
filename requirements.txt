@@ -1,8 +1,10 @@
 gunicorn
 flask
-flask-runner
 requests
 python-igraph
+numpy
+scipy
+
 reliure
-git+ssh://git@git.kodexlab.com/kodexlab/cello.git
+https://github.com/ynnk/cello/archive/master.zip
 

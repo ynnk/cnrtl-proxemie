@@ -8,6 +8,7 @@ import logging
 from flask import Flask, render_template, url_for, abort, jsonify
 
 import igraph
+import pickle
 
 from reliure.engine import Engine
 from reliure.types import Text, Numeric, Datetime
@@ -67,8 +68,8 @@ class ProxColors(Optionable):
         # vertex id in global grah, color as (r,g,b)
         match = VtxMatch(graph, attr_list=[match_attr], default_attr=match_attr)
         extract = prox.prox_markov_dict
-        for label, color in colors.iteritems():
-            gid, score = match(label).items()[0]
+        for label, color in colors.items():
+            gid, score = list(match(label).items())[0]
             self.vertices_color[gid] = color
             self.plines[gid] = extract(graph, [gid], length=length, add_loops=True)
 
@@ -76,7 +77,7 @@ class ProxColors(Optionable):
         colors = []
         for idx, vid in enumerate(subgraph.vs["gid"]):
             cr, cg, cb = (0,0,0) # color in [0,1]
-            for cgid, (r, g, b) in self.vertices_color.iteritems():
+            for cgid, (r, g, b) in self.vertices_color.items():
                 value = self.plines[cgid].get(vid, .0)
                 cr += r * value
                 cg += g * value
@@ -168,7 +169,7 @@ graphs = set([])
 
 graph_config = {
     "verb": {
-        "path": os.path.join(BASEDIR, "Graphs/dicosyn/dicosyn/V.dicosyn.pickle"),
+        "path": os.path.join(BASEDIR, "Graphs/dicosyn/V.dicosyn.pickle"),
         "label_key" : "label",
         "vertices_color": {'casser':(200,255,0),
                           'fixer':  (255,150,0),
@@ -176,7 +177,7 @@ graph_config = {
                           'exciter': (255,50,50)},
     },
     "noun": {
-        "path": os.path.join(BASEDIR, "Graphs/dicosyn/dicosyn/N.dicosyn.pickle"),
+        "path": os.path.join(BASEDIR, "Graphs/dicosyn/N.dicosyn.pickle"),
         "label_key" : "label",
         "vertices_color": {'ruine': (255,150,0),
                           'aspect': (200,255,0),
@@ -184,7 +185,7 @@ graph_config = {
                           'passion': (255,50,50)},
     },
     "adj": {
-        "path": os.path.join(BASEDIR, "Graphs/dicosyn/dicosyn/A.dicosyn.pickle"),
+        "path": os.path.join(BASEDIR, "Graphs/dicosyn/A.dicosyn.pickle"),
         "label_key" : "label",
         "vertices_color": {'fort': (255,150,0),
                           'bon': (200,255,0),
@@ -193,9 +194,12 @@ graph_config = {
     },
 }
 
-for gname, config in graph_config.iteritems():
+for gname, config in graph_config.items():
+    path = config.get("path")
+    print("reading graph %s" % path)
+    with open(path, 'rb') as f:
+        graph = pickle.load(f, encoding = 'latin1')
 
-    graph = igraph.read(config.pop("path"))
     graph['vertices_color'] = config.pop("vertices_color")
     graphs.add(gname)
     engine = lexical_graph_engine(graph)

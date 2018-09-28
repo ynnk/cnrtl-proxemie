@@ -14,7 +14,7 @@ LOGLEVEL=debug
 
 # gunicorn config
 BIND=0.0.0.0:8042
-NUM_WORKERS=3
+NUM_WORKERS=1
 
 # user/group to run as
 USER=wwwapps
@@ -23,7 +23,7 @@ GROUP=wwwapps
 ## start the app
 cd $BASEDIR
 # if  virtualenv is used 
-source ./venv/bin/activate
+source ./venv3/bin/activate
 
 
 #pre-start script
