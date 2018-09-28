@@ -3,7 +3,7 @@
 
 #set -x  #log all execed lin for debug
 set -e
-BASEDIR=/var/wwwapps/cnrtl/
+BASEDIR=/var/www/cnrtl/
 APPMODULE=naviprox_cnrtl
 APPNAME=app
 

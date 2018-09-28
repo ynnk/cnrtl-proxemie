@@ -224,7 +224,7 @@ for gname, config in graph_config.items():
 @app.route("/")
 def index():
     #TODO: better index page ?
-    return "ynnk"
+    return "56EA34F5DA4E"
 
 # main entry HTML entry points
 @app.route("/graph/<string:gname>/q/<string:query>")
